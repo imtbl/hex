@@ -1,0 +1,6 @@
+.env
+*.log
+docker-compose.yml
+import/*
+!import/.gitkeep
+node_modules

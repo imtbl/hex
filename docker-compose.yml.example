@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  chrome:
+    image: browserless/chrome:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ=Etc/UTC
+
+  hex:
+    image: mserajnik/hex:latest
+    depends_on:
+      - chrome
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./import:/data
+    environment:
+      - TZ=Etc/UTC
+      - HEX_PORT=8000
+      - HEX_ACCESS_KEY=
+      - HEX_BROWSER_WS_ENDPOINT=ws://localhost:3000
+      - HEX_HYDRUS_BASE_URL=http://localhost:45869
+      - HEX_HYDRUS_ALLOW_NEWER_API_VERSION=false
+      - HEX_HYDRUS_ACCESS_KEY=
+      - HEX_HYDRUS_TAG_SERVICE=my tags
+      - HEX_SKIP_IMPORT=false
+      - HEX_IMPORT_PATH=/data
+      - HEX_DOCKER_HOST_IMPORT_PATH=
+      - HEX_SKIP_KNOWN_FILES=false
+      - HEX_DELETE_ARCHIVES_AFTER_IMPORT=true
+      - HEX_BLACKLISTED_NAMESPACES=
+      - HEX_NAMESPACE_REPLACEMENTS=artist|||creator###parody|||series###female|||###misc|||

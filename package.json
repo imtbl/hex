@@ -1,0 +1,41 @@
+{
+  "name": "hex",
+  "version": "1.0.0",
+  "description": "A hydrus API plugin to download ExH archives",
+  "keywords": [
+    "hydrus",
+    "hydrus network",
+    "hydrusnetwork",
+    "exhentai"
+  ],
+  "author": "Michael Serajnik <ms@mserajnik.at>",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "repository": "https://mserajnik@github.com/mserajnik/hex.git",
+  "bugs": {
+    "url": "https://github.com/mserajnik/hex/issues"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=12.0.0 <14.0.0"
+  },
+  "dependencies": {
+    "adm-zip": "^0.4.13",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0",
+    "puppeteer-core": "^2.0.0",
+    "restana": "^3.4.2",
+    "slash": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
