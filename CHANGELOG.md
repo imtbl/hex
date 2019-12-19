@@ -8,10 +8,17 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.0.1] - 2019-12-19
+
+### Fixed
+
++ Removed unnecessary Travis CI configuration
+
 ## 1.0.0 - 2019-12-19
 
 ### Added
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.0.0...develop
+[Unreleased]: https://github.com/mserajnik/hex/compare/1.0.1...develop
+[1.0.1]: https://github.com/mserajnik/hex/compare/1.0.0...1.0.1
