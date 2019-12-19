@@ -1,0 +1,7 @@
+**/.env
+**/.git
+**/*.log
+**/docker-compose.yml
+**/import
+**/node_modules
+**/hex.user.js
