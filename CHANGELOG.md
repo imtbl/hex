@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
++ Removed unnecessary Travis CI configuration
+
 ## 1.0.0 - 2019-12-19
 
 ### Added
