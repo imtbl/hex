@@ -330,57 +330,59 @@ module.exports = {
         process.exit(1)
       }
 
-      const finalizedTags = []
+      if (!config.skipTags) {
+        const finalizedTags = []
 
-      for (const namespacedTags of data.namespacedTags) {
-        let namespace = Object.prototype.hasOwnProperty.call(
-          config.namespaceReplacements, namespacedTags.namespace
-        )
-          ? config.namespaceReplacements[namespacedTags.namespace]
-          : namespacedTags.namespace
+        for (const namespacedTags of data.namespacedTags) {
+          let namespace = Object.prototype.hasOwnProperty.call(
+            config.namespaceReplacements, namespacedTags.namespace
+          )
+            ? config.namespaceReplacements[namespacedTags.namespace]
+            : namespacedTags.namespace
 
-        namespace = namespace.trim()
+          namespace = namespace.trim()
 
-        if (namespace !== '') {
-          namespace += ':'
-        }
+          if (namespace !== '') {
+            namespace += ':'
+          }
 
-        for (const tag of namespacedTags.tags) {
-          finalizedTags.push(`${namespace}${tag}`)
-        }
-      }
-
-      for (const additionalTag of config.additionalTags) {
-        finalizedTags.push(additionalTag)
-      }
-
-      if (!config.blacklistedNamespaces.includes('page')) {
-        finalizedTags.push(`page:${currentFileIndex}`)
-      }
-
-      try {
-        await addTags(addFileResponse.hash, finalizedTags)
-      } catch (err) {
-        port.postMessage({
-          text: `${data.url}: could not add tags to ${addFileResponse.hash}.`,
-          type: 'error'
-        })
-
-        if (config.deleteArchivesAfterImport) {
-          try {
-            await removeExtractedArchive(data.downloadPath)
-          } catch (err) {
-            port.postMessage({
-              text: `${data.url}: could not delete archive ` +
-                `${data.downloadPath}.`,
-              type: 'error'
-            })
+          for (const tag of namespacedTags.tags) {
+            finalizedTags.push(`${namespace}${tag}`)
           }
         }
 
-        port.unref()
+        for (const additionalTag of config.additionalTags) {
+          finalizedTags.push(additionalTag)
+        }
 
-        process.exit(1)
+        if (!config.blacklistedNamespaces.includes('page')) {
+          finalizedTags.push(`page:${currentFileIndex}`)
+        }
+
+        try {
+          await addTags(addFileResponse.hash, finalizedTags)
+        } catch (err) {
+          port.postMessage({
+            text: `${data.url}: could not add tags to ${addFileResponse.hash}.`,
+            type: 'error'
+          })
+
+          if (config.deleteArchivesAfterImport) {
+            try {
+              await removeExtractedArchive(data.downloadPath)
+            } catch (err) {
+              port.postMessage({
+                text: `${data.url}: could not delete archive ` +
+                  `${data.downloadPath}.`,
+                type: 'error'
+              })
+            }
+          }
+
+          port.unref()
+
+          process.exit(1)
+        }
       }
     }
 

@@ -39,6 +39,7 @@ module.exports = {
   skipKnownFiles: process.env.HEX_SKIP_KNOWN_FILES === 'true',
   deleteArchivesAfterImport:
     process.env.HEX_DELETE_ARCHIVES_AFTER_IMPORT === 'true',
+  skipTags: process.env.HEX_SKIP_TAGS === 'true',
   blacklistedNamespaces: process.env.HEX_BLACKLISTED_NAMESPACES.trim() !== ''
     ? process.env.HEX_BLACKLISTED_NAMESPACES.split('###').map(
       namespace => namespace.trim()

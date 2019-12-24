@@ -184,6 +184,8 @@ attention to the instructions to prevent issues.
 + `HEX_DELETE_ARCHIVES_AFTER_IMPORT=true`: setting this to `false` will cause
   the extracted archives stored under `HEX_IMPORT_PATH` not to be deleted once
   the hydrus import finishes.
++ `HEX_SKIP_TAGS=false`: setting this to `true` will prevent any new tags from
+  being added to imported files and disregards any other tag-related settings.
 + `HEX_BLACKLISTED_NAMESPACES=`: namespaces that are added here separated with
   `###` will be excluded from getting added to hydrus. E.g.,
   `artist###language###misc`. This only applies to tags sourced from ExH and

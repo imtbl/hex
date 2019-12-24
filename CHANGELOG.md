@@ -11,6 +11,7 @@ and this project adheres to
 ### Added
 
 + Added additional example namespace replacements
++ Added the ability to skip adding tags
 
 ### Fixed
 
