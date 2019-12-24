@@ -187,7 +187,7 @@ attention to the instructions to prevent issues.
 + `HEX_BLACKLISTED_NAMESPACES=`: namespaces that are added here separated with
   `###` will be excluded from getting added to hydrus. E.g.,
   `artist###language###misc`.
-+ `HEX_NAMESPACE_REPLACEMENTS='artist|||creator###parody|||series###female|||###misc|||'`:
++ `HEX_NAMESPACE_REPLACEMENTS='artist|||creator###parody|||series###female|||###male|||###group|||###misc|||'`:
   namespaces that are added here in the format `<original>|||<replacement>` and
   separated with `###` will be replaced accordingly. Leaving out the
   replacement altogether (e.g., `###misc|||`) _unnamespaces_ them.

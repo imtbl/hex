@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
++ Added additional example namespace replacements
+
 ## [1.0.1] - 2019-12-19
 
 ### Fixed
