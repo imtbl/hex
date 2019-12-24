@@ -1,28 +1,16 @@
 const path = require('path')
 
+const tags = require('../util/tags')
+
 let importPath = process.env.HEX_IMPORT_PATH
 
 if (importPath.startsWith('.')) {
   importPath = path.resolve(__dirname, '../..', importPath)
 }
 
-const namespaceReplacements = {}
-
-if (process.env.HEX_NAMESPACE_REPLACEMENTS.trim() !== '') {
-  for (
-    const replacement of process.env.HEX_NAMESPACE_REPLACEMENTS.split('###')
-  ) {
-    const replacementPair = replacement.split('|||')
-
-    namespaceReplacements[replacementPair[0].trim()] = replacementPair[1]
-      ? replacementPair[1].trim()
-      : ''
-  }
-}
-
 module.exports = {
   version: '1.0.1',
-  apiVersion: 1,
+  apiVersion: 2,
   port: process.env.HEX_PORT || 8000,
   accessKey: process.env.HEX_ACCESS_KEY,
   browserWSEndpoint: process.env.HEX_BROWSER_WS_ENDPOINT ||
@@ -40,15 +28,9 @@ module.exports = {
   deleteArchivesAfterImport:
     process.env.HEX_DELETE_ARCHIVES_AFTER_IMPORT === 'true',
   skipTags: process.env.HEX_SKIP_TAGS === 'true',
-  blacklistedNamespaces: process.env.HEX_BLACKLISTED_NAMESPACES.trim() !== ''
-    ? process.env.HEX_BLACKLISTED_NAMESPACES.split('###').map(
-      namespace => namespace.trim()
-    )
-    : [],
-  namespaceReplacements,
-  additionalTags: process.env.HEX_ADDITIONAL_TAGS.trim() !== ''
-    ? process.env.HEX_ADDITIONAL_TAGS.split('###').map(
-      namespace => namespace.trim()
-    )
-    : []
+  blacklistedNamespaces: tags.getArray(process.env.HEX_BLACKLISTED_NAMESPACES),
+  namespaceReplacements: tags.getNamespaceReplacementsMapping(
+    process.env.HEX_NAMESPACE_REPLACEMENTS
+  ),
+  additionalTags: tags.getArray(process.env.HEX_ADDITIONAL_TAGS)
 }

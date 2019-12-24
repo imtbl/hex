@@ -5,6 +5,7 @@ const fetch = require('node-fetch')
 const Zip = require('adm-zip')
 
 const config = require('../config')
+const tags = require('../util/tags')
 
 const downloadArchive = (url, destination) => {
   const zipDestination = `${destination}.zip`
@@ -58,7 +59,7 @@ const removeArchive = archivePath => {
 }
 
 module.exports = {
-  async download (url, cookies, port) {
+  async download (url, cookies, settings, port) {
     let browser
 
     try {
@@ -71,7 +72,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -86,7 +87,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -103,7 +104,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -146,15 +147,20 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
 
+    const blacklistedNamespaces =
+      typeof settings.blacklistedNamespaces === 'string'
+        ? tags.getArray(settings.blacklistedNamespaces)
+        : config.blacklistedNamespaces
+
     let i = namespacedTags.length
 
     while (i--) {
-      if (config.blacklistedNamespaces.includes(namespacedTags[i].namespace)) {
+      if (blacklistedNamespaces.includes(namespacedTags[i].namespace)) {
         namespacedTags.splice(i, 1)
       }
     }
@@ -173,7 +179,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -186,7 +192,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -199,7 +205,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -214,7 +220,7 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -250,16 +256,10 @@ module.exports = {
         type: 'error'
       })
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
-
-    port.postMessage({
-      text: `${url}: successfully downloaded and extracted to ` +
-        `${downloadPath}.`,
-      type: 'info'
-    })
 
     return {
       url,

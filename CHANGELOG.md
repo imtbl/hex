@@ -13,6 +13,10 @@ and this project adheres to
 + Added additional example namespace replacements
 + Added the ability to skip adding tags
 
+### Changed
+
++ Reworked API and made settings overridable
+
 ### Fixed
 
 + Fixed error when not providing `HEX_DOCKER_HOST_IMPORT_PATH`

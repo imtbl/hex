@@ -25,7 +25,7 @@ require('dotenv').config()
 
 const config = require('./src/config')
 const logger = require('./src/util/logger')
-const validator = require('./src/util/validator')
+const schemas = require('./src/util/schemas')
 const importer = require('./src/importer')
 
 service.use(bodyParser.json())
@@ -35,7 +35,7 @@ service.use((req, res, next) => {
     event.res.setHeader('Access-Control-Allow-Origin', '*')
     event.res.setHeader(
       'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
+      'Accept, Authorization, Content-Type, Origin, X-Requested-With'
     )
     event.res.setHeader(
       'Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS'
@@ -58,22 +58,47 @@ service.get('/', (req, res) => {
   })
 })
 
-service.post('/import', (req, res) => {
-  if (!validator.isValidAccessKey(req.body.accessKey)) {
+service.get('/settings', async (req, res) => {
+  try {
+    await schemas.settings.validateAsync({
+      accessKey: req.headers.authorization
+    })
+  } catch (err) {
     return res.send({
-      error: 'InvalidAccessKey'
+      error: `${err.details[0].path[0]}`
     }, 400)
   }
 
-  if (!validator.isNotEmpty(req.body.cookies)) {
-    return res.send({
-      error: 'MissingCookies'
-    }, 400)
-  }
+  res.send({
+    settings: {
+      skipImport: config.skipImport,
+      skipKnownFiles: config.skipKnownFiles,
+      deleteArchivesAfterImport: config.deleteArchivesAfterImport,
+      skipTags: config.skipTags,
+      blacklistedNamespaces: config.blacklistedNamespaces,
+      namespaceReplacements: config.namespaceReplacements,
+      additionalTags: config.additionalTags
+    }
+  })
+})
 
-  if (!validator.isNotEmpty(req.body.url)) {
+service.post('/import', async (req, res) => {
+  try {
+    await schemas.import.validateAsync({
+      accessKey: req.headers.authorization,
+      cookies: req.body.cookies,
+      url: req.body.url,
+      skipImport: req.body.skipImport,
+      skipKnownFiles: req.body.skipKnownFiles,
+      deleteArchivesAfterImport: req.body.deleteArchivesAfterImport,
+      skipTags: req.body.skipTags,
+      blacklistedNamespaces: req.body.blacklistedNamespaces,
+      namespaceReplacements: req.body.namespaceReplacements,
+      additionalTags: req.body.additionalTags
+    })
+  } catch (err) {
     return res.send({
-      error: 'MissingUrl'
+      error: `${err.details[0].path[0]}`
     }, 400)
   }
 
@@ -81,7 +106,15 @@ service.post('/import', (req, res) => {
     import: req.body.url
   })
 
-  importer.run(req.body.url, req.body.cookies)
+  importer.run(req.body.url, req.body.cookies, {
+    skipImport: req.body.skipImport,
+    skipKnownFiles: req.body.skipKnownFiles,
+    deleteArchivesAfterImport: req.body.deleteArchivesAfterImport,
+    skipTags: req.body.skipTags,
+    blacklistedNamespaces: req.body.blacklistedNamespaces,
+    namespaceReplacements: req.body.namespaceReplacements,
+    additionalTags: req.body.additionalTags
+  })
 })
 
 ;(async () => {

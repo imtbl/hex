@@ -24,6 +24,12 @@ adds a _hex Download_ button to ExH gallery pages is included for convenience.
   + [Running without Docker](#running-without-docker)
   + [Configuration](#configuration)
   + [Userscript](#userscript)
+  + [API](#api)
+    + [General](#general)
+    + [Routes](#routes)
+      + [Base](#base)
+      + [Settings](#settings)
+      + [Import](#import)
 + [Maintainer](#maintainer)
 + [Contribute](#contribute)
 + [License](#license)
@@ -207,6 +213,98 @@ To make using hex as comfortable as possible, a [userscript](hex.user.js) that
 adds a _hex Download_ button to ExH gallery pages is included. Simply adjust
 lines 6 and 7 with with the base URL of your hex API and the `HEX_ACCESS_KEY`
 you chose.
+
+### API
+
+#### General
+
+Request and response bodies are always in JSON format. The `Authorization`
+header in the format `Authorization: Bearer <HEX_ACCESS_KEY>` is used to
+authenticate for all routes except the base route (`/`).
+
+Requests with missing or malformed parameters will be responded with an error
+in the following format and error code `400`:
+
+```json5
+{
+  "error": <field name>
+}
+```
+
+#### Routes
+
+##### Base
+
+Responds with the version number and the API version number of the hex
+installation. The API version number will increase by 1 every time an existing
+API endpoint is modified in a way it behaves differently than before or
+removed altogether.
+
+__Route:__ `GET /`
+
+__Response on success:__
+
+```json5
+{
+  "hex": {
+    "version": <version number of hex installation>,
+    "apiVersion>": <API version number of hex installation>
+  }
+}
+```
+
+##### Settings
+
+Responds with a number of default settings configured via environment
+variables. These settings can then be overridden per import.
+
+__Route:__ `GET /settings`
+
+__Response on success:__
+
+```json5
+{
+  "settings": {
+    "skipImport": <boolean indicating if hydrus imports should be skipped>,
+    "skipKnownFiles": <boolean indicating if known files should be skipped>,
+    "deleteArchivesAfterImport": <boolean indicating if archives should be deleted after import>,
+    "skipTags": <boolean indicating if adding tags should be skipped>,
+    "blacklistedNamespaces": <array of blacklisted namespaces>,
+    "namespaceReplacements": <object where the key is the original and the value the replacement namespace>,
+    "additionalTags": <array of additional tags>
+  }
+}
+```
+
+##### Import
+
+Used to send ExH gallery URLs to hex for processing.
+
+__Route:__ `POST /import`
+
+__Request body:__
+
+```json5
+{
+  "cookies": <ExH `Cookie` header>,
+  "url": <ExH gallery URL to be processed>,
+  "skipImport": <boolean indicating if hydrus imports should be skipped>, // optional, if not provided, the default will be used
+  "skipKnownFiles": <boolean indicating if known files should be skipped>, // optional, if not provided, the default will be used
+  "deleteArchivesAfterImport": <boolean indicating if archives should be deleted after import>, // optional, if not provided, the default will be used
+  "skipTags": <boolean indicating if adding tags should be skipped>, // optional, if not provided, the default will be used
+  "blacklistedNamespaces": <blacklisted namespaces in the same format as `HEX_BLACKLISTED_NAMESPACES`>, // optional, if not provided, the default will be used
+  "namespaceReplacements": <namespace replacements in the same format as `HEX_NAMESPACE_REPLACEMENTS`>, // optional, if not provided, the default will be used
+  "additionalTags": <additional tags in the same format as `HEX_ADDITIONAL_TAGS`> // optional, if not provided, the default will be used
+}
+```
+
+__Response on success:__
+
+```json5
+{
+  "import": <ExH gallery URL> // does not indicate success, only that the processing of the gallery has been started
+}
+```
 
 ## Maintainer
 

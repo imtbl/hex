@@ -4,12 +4,12 @@ if (isMainThread) {
   const logger = require('../util/logger')
 
   module.exports = {
-    run (url, cookies) {
+    run (url, cookies, settings) {
       const worker = new Worker(__filename)
 
       worker.on('message', message => logger.log(message.text, message.type))
 
-      worker.postMessage({ url, cookies })
+      worker.postMessage({ url, cookies, settings })
     }
   }
 } else {
@@ -23,19 +23,34 @@ if (isMainThread) {
       type: 'info'
     })
 
-    const data = await exh.download(message.url, message.cookies, parentPort)
+    const data = await exh.download(
+      message.url, message.cookies, message.settings, parentPort
+    )
 
-    if (config.skipImport) {
+    parentPort.postMessage({
+      text: `${message.url}: successfully downloaded and extracted to ` +
+        `${data.downloadPath}.`,
+      type: 'info'
+    })
+
+    const skipImport = typeof message.settings.skipImport === 'boolean'
+      ? message.settings.skipImport
+      : typeof message.settings.skipImport === 'string' &&
+        ['true', 'false'].includes(message.settings.skipImport)
+        ? message.settings.skipImport === 'true'
+        : config.skipImport
+
+    if (skipImport) {
       parentPort.postMessage({
         text: `${message.url}: skipping hydrus import.`,
         type: 'info'
       })
 
-      parentPort.unref()
+      parentPort.close()
 
       process.exit(0)
     }
 
-    await hydrus.import(data, parentPort)
+    await hydrus.import(data, message.settings, parentPort)
   })
 }

@@ -4,6 +4,7 @@ const fetch = require('node-fetch')
 const slash = require('slash')
 
 const config = require('../config')
+const tags = require('../util/tags')
 
 const getFilePaths = directoryPath => {
   return new Promise((resolve, reject) => {
@@ -99,8 +100,16 @@ const addTags = (fileHash, tags) => {
 }
 
 module.exports = {
-  async import (data, port) {
+  async import (data, settings, port) {
     let apiVersionResponse
+
+    const deleteArchivesAfterImport =
+      typeof settings.deleteArchivesAfterImport === 'boolean'
+        ? settings.deleteArchivesAfterImport
+        : typeof settings.deleteArchivesAfterImport === 'string' &&
+          ['true', 'false'].includes(settings.deleteArchivesAfterImport)
+          ? settings.deleteArchivesAfterImport === 'true'
+          : config.deleteArchivesAfterImport
 
     try {
       apiVersionResponse = await getApiVersion()
@@ -112,7 +121,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -124,7 +133,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -136,7 +145,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -148,7 +157,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -164,7 +173,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -176,7 +185,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -192,7 +201,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -204,7 +213,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -217,7 +226,7 @@ module.exports = {
           type: 'error'
         })
 
-        if (config.deleteArchivesAfterImport) {
+        if (deleteArchivesAfterImport) {
           try {
             await removeExtractedArchive(data.downloadPath)
           } catch (err) {
@@ -229,7 +238,7 @@ module.exports = {
           }
         }
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
@@ -245,7 +254,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -257,7 +266,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -278,7 +287,7 @@ module.exports = {
           type: 'error'
         })
 
-        if (config.deleteArchivesAfterImport) {
+        if (deleteArchivesAfterImport) {
           try {
             await removeExtractedArchive(data.downloadPath)
           } catch (err) {
@@ -290,12 +299,19 @@ module.exports = {
           }
         }
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
 
-      if (addFileResponse.status !== 1 && config.skipKnownFiles) {
+      const skipKnownFiles = typeof settings.skipKnownFiles === 'boolean'
+        ? settings.skipKnownFiles
+        : typeof settings.skipKnownFiles === 'string' &&
+          ['true', 'false'].includes(settings.skipKnownFiles)
+          ? settings.skipKnownFiles === 'true'
+          : config.skipKnownFiles
+
+      if (addFileResponse.status !== 1 && skipKnownFiles) {
         port.postMessage({
           text: `${data.url}: file ${filePath} is already known, skipping.`,
           type: 'info'
@@ -313,7 +329,7 @@ module.exports = {
           type: 'error'
         })
 
-        if (config.deleteArchivesAfterImport) {
+        if (deleteArchivesAfterImport) {
           try {
             await removeExtractedArchive(data.downloadPath)
           } catch (err) {
@@ -325,19 +341,33 @@ module.exports = {
           }
         }
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
 
-      if (!config.skipTags) {
+      const skipTags = typeof settings.skipTags === 'boolean'
+        ? settings.skipTags
+        : typeof settings.skipTags === 'string' &&
+          ['true', 'false'].includes(settings.skipTags)
+          ? settings.skipTags === 'true'
+          : config.skipTags
+
+      if (!skipTags) {
         const finalizedTags = []
+
+        const namespaceReplacements =
+          typeof settings.namespaceReplacements === 'string'
+            ? tags.getNamespaceReplacementsMapping(
+              settings.namespaceReplacements
+            )
+            : config.namespaceReplacements
 
         for (const namespacedTags of data.namespacedTags) {
           let namespace = Object.prototype.hasOwnProperty.call(
-            config.namespaceReplacements, namespacedTags.namespace
+            namespaceReplacements, namespacedTags.namespace
           )
-            ? config.namespaceReplacements[namespacedTags.namespace]
+            ? namespaceReplacements[namespacedTags.namespace]
             : namespacedTags.namespace
 
           namespace = namespace.trim()
@@ -351,11 +381,20 @@ module.exports = {
           }
         }
 
-        for (const additionalTag of config.additionalTags) {
+        const additionalTags = typeof settings.additionalTags === 'string'
+          ? tags.getArray(settings.additionalTags)
+          : config.additionalTags
+
+        for (const additionalTag of additionalTags) {
           finalizedTags.push(additionalTag)
         }
 
-        if (!config.blacklistedNamespaces.includes('page')) {
+        const blacklistedNamespaces =
+          typeof settings.blacklistedNamespaces === 'string'
+            ? tags.getArray(settings.blacklistedNamespaces)
+            : config.blacklistedNamespaces
+
+        if (!blacklistedNamespaces.includes('page')) {
           finalizedTags.push(`page:${currentFileIndex}`)
         }
 
@@ -367,7 +406,7 @@ module.exports = {
             type: 'error'
           })
 
-          if (config.deleteArchivesAfterImport) {
+          if (deleteArchivesAfterImport) {
             try {
               await removeExtractedArchive(data.downloadPath)
             } catch (err) {
@@ -379,7 +418,7 @@ module.exports = {
             }
           }
 
-          port.unref()
+          port.close()
 
           process.exit(1)
         }
@@ -391,7 +430,7 @@ module.exports = {
       type: 'info'
     })
 
-    if (config.deleteArchivesAfterImport) {
+    if (deleteArchivesAfterImport) {
       try {
         await removeExtractedArchive(data.downloadPath)
       } catch (err) {
@@ -401,7 +440,7 @@ module.exports = {
           type: 'error'
         })
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
