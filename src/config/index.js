@@ -35,7 +35,7 @@ module.exports = {
   hydrusTagService: process.env.HEX_HYDRUS_TAG_SERVICE || 'my tags',
   skipImport: process.env.HEX_SKIP_IMPORT === 'true',
   importPath: importPath,
-  dockerHostImportPath: process.env.HEX_DOCKER_HOST_IMPORT_PATH,
+  dockerHostImportPath: process.env.HEX_DOCKER_HOST_IMPORT_PATH || '',
   skipKnownFiles: process.env.HEX_SKIP_KNOWN_FILES === 'true',
   deleteArchivesAfterImport:
     process.env.HEX_DELETE_ARCHIVES_AFTER_IMPORT === 'true',

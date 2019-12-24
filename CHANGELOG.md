@@ -12,6 +12,10 @@ and this project adheres to
 
 + Added additional example namespace replacements
 
+### Fixed
+
++ Fixed error when not providing `HEX_DOCKER_HOST_IMPORT_PATH`
+
 ## [1.0.1] - 2019-12-19
 
 ### Fixed
