@@ -2,13 +2,15 @@
 
 > A hydrus API plugin to download ExH archives
 
+![Screenshot of the userscript in action][screenshot]
+
 hex is a tool that connects to the [hydrus][hydrus] client API and allows you
 to download and import ExH galleries via the archive download method (instead
 of scraping the images), alongside their tags and URL association.
 
 A simple HTTP API allows you to send gallery URLs to hex that it will then
 proceed to download and import automatically. A [userscript](hex.user.js) that
-adds a _hex Download_ button to ExH gallery pages is included for convenience.
+adds a hex toolbar to ExH gallery pages is included for convenience.
 
 ## Table of contents
 
@@ -210,9 +212,13 @@ attention to the instructions to prevent issues.
 ### Userscript
 
 To make using hex as comfortable as possible, a [userscript](hex.user.js) that
-adds a _hex Download_ button to ExH gallery pages is included. Simply adjust
-lines 6 and 7 with with the base URL of your hex API and the `HEX_ACCESS_KEY`
-you chose.
+adds a hex toolbar to ExH gallery pages is included. When you first open ExH
+with the userscript enabled, it will prompt you for the hex base URL and the
+access key. You can adjust these at any point in the settings, but be sure to
+refresh any open ExH page after doing so (as the changes will not be reflected
+on a page that had already been loaded before changing base URL or access key).
+__Please keep in mind that the access key is stored in plaintext and that__
+__anyone with access to the browser can read it.__
 
 ### API
 
@@ -329,6 +335,8 @@ You are welcome to help out!
 [browserless]: https://github.com/browserless/chrome
 [semantic-versioning]: https://semver.org/
 [docker-compose]: https://docs.docker.com/compose/
+
+[screenshot]: https://github.com/mserajnik/hex/raw/master/media/screenshot.png
 
 [docker-hub-badge]: https://img.shields.io/docker/cloud/automated/mserajnik/hex.svg
 

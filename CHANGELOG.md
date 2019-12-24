@@ -16,6 +16,7 @@ and this project adheres to
 ### Changed
 
 + Reworked API and made settings overridable
++ Updated and expanded userscript
 
 ### Fixed
 
