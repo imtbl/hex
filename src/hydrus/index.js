@@ -350,6 +350,10 @@ module.exports = {
         }
       }
 
+      for (const additionalTag of config.additionalTags) {
+        finalizedTags.push(additionalTag)
+      }
+
       if (!config.blacklistedNamespaces.includes('page')) {
         finalizedTags.push(`page:${currentFileIndex}`)
       }

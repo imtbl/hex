@@ -44,5 +44,10 @@ module.exports = {
       namespace => namespace.trim()
     )
     : [],
-  namespaceReplacements
+  namespaceReplacements,
+  additionalTags: process.env.HEX_ADDITIONAL_TAGS.trim() !== ''
+    ? process.env.HEX_ADDITIONAL_TAGS.split('###').map(
+      namespace => namespace.trim()
+    )
+    : []
 }

@@ -186,11 +186,18 @@ attention to the instructions to prevent issues.
   the hydrus import finishes.
 + `HEX_BLACKLISTED_NAMESPACES=`: namespaces that are added here separated with
   `###` will be excluded from getting added to hydrus. E.g.,
-  `artist###language###misc`.
+  `artist###language###misc`. This only applies to tags sourced from ExH and
+  the special `page:<page number>` tag that is added by default, not to tags
+  added via `HEX_ADDITIONAL_TAGS`. In addition, if `HEX_NAMESPACE_REPLACEMENTS`
+  is used and the replacement (but not the original) is a blacklisted
+  namespace, it will still be added as well.
 + `HEX_NAMESPACE_REPLACEMENTS='artist|||creator###parody|||series###female|||###male|||###group|||###misc|||'`:
   namespaces that are added here in the format `<original>|||<replacement>` and
   separated with `###` will be replaced accordingly. Leaving out the
   replacement altogether (e.g., `###misc|||`) _unnamespaces_ them.
++ `HEX_ADDITIONAL_TAGS=`: additional tags to be added. Have to be provided in
+  the format `<namespace>:<tag>` or simply `<tag>` (for unnamespaced tags) and
+  separated with `###`.
 
 ### Userscript
 
