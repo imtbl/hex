@@ -31,5 +31,7 @@ services:
       - HEX_DOCKER_HOST_IMPORT_PATH=
       - HEX_SKIP_KNOWN_FILES=false
       - HEX_DELETE_ARCHIVES_AFTER_IMPORT=true
+      - HEX_SKIP_TAGS=false
       - HEX_BLACKLISTED_NAMESPACES=
       - HEX_NAMESPACE_REPLACEMENTS=artist|||creator###parody|||series###female|||###misc|||
+      - HEX_ADDITIONAL_TAGS=

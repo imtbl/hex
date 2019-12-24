@@ -2,13 +2,15 @@
 
 > A hydrus API plugin to download ExH archives
 
+![Screenshot of the userscript in action][screenshot]
+
 hex is a tool that connects to the [hydrus][hydrus] client API and allows you
 to download and import ExH galleries via the archive download method (instead
 of scraping the images), alongside their tags and URL association.
 
 A simple HTTP API allows you to send gallery URLs to hex that it will then
 proceed to download and import automatically. A [userscript](hex.user.js) that
-adds a _hex Download_ button to ExH gallery pages is included for convenience.
+adds a hex toolbar to ExH gallery pages is included for convenience.
 
 ## Table of contents
 
@@ -24,6 +26,12 @@ adds a _hex Download_ button to ExH gallery pages is included for convenience.
   + [Running without Docker](#running-without-docker)
   + [Configuration](#configuration)
   + [Userscript](#userscript)
+  + [API](#api)
+    + [General](#general)
+    + [Routes](#routes)
+      + [Base](#base)
+      + [Settings](#settings)
+      + [Import](#import)
 + [Maintainer](#maintainer)
 + [Contribute](#contribute)
 + [License](#license)
@@ -184,20 +192,125 @@ attention to the instructions to prevent issues.
 + `HEX_DELETE_ARCHIVES_AFTER_IMPORT=true`: setting this to `false` will cause
   the extracted archives stored under `HEX_IMPORT_PATH` not to be deleted once
   the hydrus import finishes.
++ `HEX_SKIP_TAGS=false`: setting this to `true` will prevent any new tags from
+  being added to imported files and disregards any other tag-related settings.
 + `HEX_BLACKLISTED_NAMESPACES=`: namespaces that are added here separated with
   `###` will be excluded from getting added to hydrus. E.g.,
-  `artist###language###misc`.
-+ `HEX_NAMESPACE_REPLACEMENTS='artist|||creator###parody|||series###female|||###misc|||'`:
+  `artist###language###misc`. This only applies to tags sourced from ExH and
+  the special `page:<page number>` tag that is added by default, not to tags
+  added via `HEX_ADDITIONAL_TAGS`. In addition, if `HEX_NAMESPACE_REPLACEMENTS`
+  is used and the replacement (but not the original) is a blacklisted
+  namespace, it will still be added as well.
++ `HEX_NAMESPACE_REPLACEMENTS='artist|||creator###parody|||series###female|||###male|||###group|||###misc|||'`:
   namespaces that are added here in the format `<original>|||<replacement>` and
   separated with `###` will be replaced accordingly. Leaving out the
   replacement altogether (e.g., `###misc|||`) _unnamespaces_ them.
++ `HEX_ADDITIONAL_TAGS=`: additional tags to be added. Have to be provided in
+  the format `<namespace>:<tag>` or simply `<tag>` (for unnamespaced tags) and
+  separated with `###`.
 
 ### Userscript
 
 To make using hex as comfortable as possible, a [userscript](hex.user.js) that
-adds a _hex Download_ button to ExH gallery pages is included. Simply adjust
-lines 6 and 7 with with the base URL of your hex API and the `HEX_ACCESS_KEY`
-you chose.
+adds a hex toolbar to ExH gallery pages is included. When you first open ExH
+with the userscript enabled, it will prompt you for the hex base URL and the
+access key. You can adjust these at any point in the settings, but be sure to
+refresh any open ExH page after doing so (as the changes will not be reflected
+on a page that had already been loaded before changing base URL or access key).
+__Please keep in mind that the access key is stored in plaintext and that__
+__anyone with access to the browser can read it.__
+
+### API
+
+#### General
+
+Request and response bodies are always in JSON format. The `Authorization`
+header in the format `Authorization: Bearer <HEX_ACCESS_KEY>` is used to
+authenticate for all routes except the base route (`/`).
+
+Requests with missing or malformed parameters will be responded with an error
+in the following format and error code `400`:
+
+```json5
+{
+  "error": <field name>
+}
+```
+
+#### Routes
+
+##### Base
+
+Responds with the version number and the API version number of the hex
+installation. The API version number will increase by 1 every time an existing
+API endpoint is modified in a way it behaves differently than before or
+removed altogether.
+
+__Route:__ `GET /`
+
+__Response on success:__
+
+```json5
+{
+  "hex": {
+    "version": <version number of hex installation>,
+    "apiVersion>": <API version number of hex installation>
+  }
+}
+```
+
+##### Settings
+
+Responds with a number of default settings configured via environment
+variables. These settings can then be overridden per import.
+
+__Route:__ `GET /settings`
+
+__Response on success:__
+
+```json5
+{
+  "settings": {
+    "skipImport": <boolean indicating if hydrus imports should be skipped>,
+    "skipKnownFiles": <boolean indicating if known files should be skipped>,
+    "deleteArchivesAfterImport": <boolean indicating if archives should be deleted after import>,
+    "skipTags": <boolean indicating if adding tags should be skipped>,
+    "blacklistedNamespaces": <array of blacklisted namespaces>,
+    "namespaceReplacements": <object where the key is the original and the value the replacement namespace>,
+    "additionalTags": <array of additional tags>
+  }
+}
+```
+
+##### Import
+
+Used to send ExH gallery URLs to hex for processing.
+
+__Route:__ `POST /import`
+
+__Request body:__
+
+```json5
+{
+  "cookies": <ExH `Cookie` header>,
+  "url": <ExH gallery URL to be processed>,
+  "skipImport": <boolean indicating if hydrus imports should be skipped>, // optional, if not provided, the default will be used
+  "skipKnownFiles": <boolean indicating if known files should be skipped>, // optional, if not provided, the default will be used
+  "deleteArchivesAfterImport": <boolean indicating if archives should be deleted after import>, // optional, if not provided, the default will be used
+  "skipTags": <boolean indicating if adding tags should be skipped>, // optional, if not provided, the default will be used
+  "blacklistedNamespaces": <blacklisted namespaces in the same format as `HEX_BLACKLISTED_NAMESPACES`>, // optional, if not provided, the default will be used
+  "namespaceReplacements": <namespace replacements in the same format as `HEX_NAMESPACE_REPLACEMENTS`>, // optional, if not provided, the default will be used
+  "additionalTags": <additional tags in the same format as `HEX_ADDITIONAL_TAGS`> // optional, if not provided, the default will be used
+}
+```
+
+__Response on success:__
+
+```json5
+{
+  "import": <ExH gallery URL> // does not indicate success, only that the processing of the gallery has been started
+}
+```
 
 ## Maintainer
 
@@ -222,6 +335,8 @@ You are welcome to help out!
 [browserless]: https://github.com/browserless/chrome
 [semantic-versioning]: https://semver.org/
 [docker-compose]: https://docs.docker.com/compose/
+
+[screenshot]: https://github.com/mserajnik/hex/raw/master/media/screenshot.png
 
 [docker-hub-badge]: https://img.shields.io/docker/cloud/automated/mserajnik/hex.svg
 

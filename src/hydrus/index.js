@@ -4,6 +4,7 @@ const fetch = require('node-fetch')
 const slash = require('slash')
 
 const config = require('../config')
+const tags = require('../util/tags')
 
 const getFilePaths = directoryPath => {
   return new Promise((resolve, reject) => {
@@ -76,7 +77,10 @@ const associateUrl = (fileHash, url) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      url_to_add: url,
+      urls_to_add: [
+        url,
+        `${url}?p=0`
+      ],
       hash: fileHash
     })
   })
@@ -99,8 +103,16 @@ const addTags = (fileHash, tags) => {
 }
 
 module.exports = {
-  async import (data, port) {
+  async import (data, settings, port) {
     let apiVersionResponse
+
+    const deleteArchivesAfterImport =
+      typeof settings.deleteArchivesAfterImport === 'boolean'
+        ? settings.deleteArchivesAfterImport
+        : typeof settings.deleteArchivesAfterImport === 'string' &&
+          ['true', 'false'].includes(settings.deleteArchivesAfterImport)
+          ? settings.deleteArchivesAfterImport === 'true'
+          : config.deleteArchivesAfterImport
 
     try {
       apiVersionResponse = await getApiVersion()
@@ -112,7 +124,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -124,7 +136,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -136,7 +148,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -148,7 +160,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -164,7 +176,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -176,7 +188,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -192,7 +204,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -204,7 +216,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -217,7 +229,7 @@ module.exports = {
           type: 'error'
         })
 
-        if (config.deleteArchivesAfterImport) {
+        if (deleteArchivesAfterImport) {
           try {
             await removeExtractedArchive(data.downloadPath)
           } catch (err) {
@@ -229,7 +241,7 @@ module.exports = {
           }
         }
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
@@ -245,7 +257,7 @@ module.exports = {
         type: 'error'
       })
 
-      if (config.deleteArchivesAfterImport) {
+      if (deleteArchivesAfterImport) {
         try {
           await removeExtractedArchive(data.downloadPath)
         } catch (err) {
@@ -257,7 +269,7 @@ module.exports = {
         }
       }
 
-      port.unref()
+      port.close()
 
       process.exit(1)
     }
@@ -278,7 +290,7 @@ module.exports = {
           type: 'error'
         })
 
-        if (config.deleteArchivesAfterImport) {
+        if (deleteArchivesAfterImport) {
           try {
             await removeExtractedArchive(data.downloadPath)
           } catch (err) {
@@ -290,12 +302,19 @@ module.exports = {
           }
         }
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
 
-      if (addFileResponse.status !== 1 && config.skipKnownFiles) {
+      const skipKnownFiles = typeof settings.skipKnownFiles === 'boolean'
+        ? settings.skipKnownFiles
+        : typeof settings.skipKnownFiles === 'string' &&
+          ['true', 'false'].includes(settings.skipKnownFiles)
+          ? settings.skipKnownFiles === 'true'
+          : config.skipKnownFiles
+
+      if (addFileResponse.status !== 1 && skipKnownFiles) {
         port.postMessage({
           text: `${data.url}: file ${filePath} is already known, skipping.`,
           type: 'info'
@@ -313,7 +332,7 @@ module.exports = {
           type: 'error'
         })
 
-        if (config.deleteArchivesAfterImport) {
+        if (deleteArchivesAfterImport) {
           try {
             await removeExtractedArchive(data.downloadPath)
           } catch (err) {
@@ -325,58 +344,87 @@ module.exports = {
           }
         }
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }
 
-      const finalizedTags = []
+      const skipTags = typeof settings.skipTags === 'boolean'
+        ? settings.skipTags
+        : typeof settings.skipTags === 'string' &&
+          ['true', 'false'].includes(settings.skipTags)
+          ? settings.skipTags === 'true'
+          : config.skipTags
 
-      for (const namespacedTags of data.namespacedTags) {
-        let namespace = Object.prototype.hasOwnProperty.call(
-          config.namespaceReplacements, namespacedTags.namespace
-        )
-          ? config.namespaceReplacements[namespacedTags.namespace]
-          : namespacedTags.namespace
+      if (!skipTags) {
+        const finalizedTags = []
 
-        namespace = namespace.trim()
+        const namespaceReplacements =
+          typeof settings.namespaceReplacements === 'string'
+            ? tags.getNamespaceReplacementsMapping(
+              settings.namespaceReplacements
+            )
+            : config.namespaceReplacements
 
-        if (namespace !== '') {
-          namespace += ':'
-        }
+        for (const namespacedTags of data.namespacedTags) {
+          let namespace = Object.prototype.hasOwnProperty.call(
+            namespaceReplacements, namespacedTags.namespace
+          )
+            ? namespaceReplacements[namespacedTags.namespace]
+            : namespacedTags.namespace
 
-        for (const tag of namespacedTags.tags) {
-          finalizedTags.push(`${namespace}${tag}`)
-        }
-      }
+          namespace = namespace.trim()
 
-      if (!config.blacklistedNamespaces.includes('page')) {
-        finalizedTags.push(`page:${currentFileIndex}`)
-      }
+          if (namespace !== '') {
+            namespace += ':'
+          }
 
-      try {
-        await addTags(addFileResponse.hash, finalizedTags)
-      } catch (err) {
-        port.postMessage({
-          text: `${data.url}: could not add tags to ${addFileResponse.hash}.`,
-          type: 'error'
-        })
-
-        if (config.deleteArchivesAfterImport) {
-          try {
-            await removeExtractedArchive(data.downloadPath)
-          } catch (err) {
-            port.postMessage({
-              text: `${data.url}: could not delete archive ` +
-                `${data.downloadPath}.`,
-              type: 'error'
-            })
+          for (const tag of namespacedTags.tags) {
+            finalizedTags.push(`${namespace}${tag}`)
           }
         }
 
-        port.unref()
+        const additionalTags = typeof settings.additionalTags === 'string'
+          ? tags.getArray(settings.additionalTags)
+          : config.additionalTags
 
-        process.exit(1)
+        for (const additionalTag of additionalTags) {
+          finalizedTags.push(additionalTag)
+        }
+
+        const blacklistedNamespaces =
+          typeof settings.blacklistedNamespaces === 'string'
+            ? tags.getArray(settings.blacklistedNamespaces)
+            : config.blacklistedNamespaces
+
+        if (!blacklistedNamespaces.includes('page')) {
+          finalizedTags.push(`page:${currentFileIndex}`)
+        }
+
+        try {
+          await addTags(addFileResponse.hash, finalizedTags)
+        } catch (err) {
+          port.postMessage({
+            text: `${data.url}: could not add tags to ${addFileResponse.hash}.`,
+            type: 'error'
+          })
+
+          if (deleteArchivesAfterImport) {
+            try {
+              await removeExtractedArchive(data.downloadPath)
+            } catch (err) {
+              port.postMessage({
+                text: `${data.url}: could not delete archive ` +
+                  `${data.downloadPath}.`,
+                type: 'error'
+              })
+            }
+          }
+
+          port.close()
+
+          process.exit(1)
+        }
       }
     }
 
@@ -385,7 +433,7 @@ module.exports = {
       type: 'info'
     })
 
-    if (config.deleteArchivesAfterImport) {
+    if (deleteArchivesAfterImport) {
       try {
         await removeExtractedArchive(data.downloadPath)
       } catch (err) {
@@ -395,7 +443,7 @@ module.exports = {
           type: 'error'
         })
 
-        port.unref()
+        port.close()
 
         process.exit(1)
       }

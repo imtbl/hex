@@ -1,6 +1,6 @@
 {
   "name": "hex",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A hydrus API plugin to download ExH archives",
   "keywords": [
     "hydrus",
@@ -22,6 +22,7 @@
     "node": ">=12.0.0 <14.0.0"
   },
   "dependencies": {
+    "@hapi/joi": "^16.1.8",
     "adm-zip": "^0.4.13",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
@@ -31,7 +32,7 @@
     "slash": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^10.0.0",

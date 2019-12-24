@@ -8,6 +8,25 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.1.0] - 2019-12-24
+
+### Added
+
++ Added additional example namespace replacements
++ Added the ability to skip adding tags
+
+### Changed
+
++ Reworked API and made settings overridable
++ Updated and expanded userscript
++ Updated dependencies
+
+### Fixed
+
++ Fixed error when not providing `HEX_DOCKER_HOST_IMPORT_PATH`
++ Added a workaround for the discrepancy between the `/add_urls/associate_url`
+  and `/add_urls/get_url_files` hydrus API routes in regards to normalization
+
 ## [1.0.1] - 2019-12-19
 
 ### Fixed
@@ -20,5 +39,6 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.0.1...develop
+[Unreleased]: https://github.com/mserajnik/hex/compare/1.1.0...develop
+[1.1.0]: https://github.com/mserajnik/hex/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/mserajnik/hex/compare/1.0.0...1.0.1
