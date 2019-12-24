@@ -77,7 +77,10 @@ const associateUrl = (fileHash, url) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      url_to_add: url,
+      urls_to_add: [
+        url,
+        `${url}?p=0`
+      ],
       hash: fileHash
     })
   })

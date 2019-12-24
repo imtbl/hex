@@ -21,6 +21,8 @@ and this project adheres to
 ### Fixed
 
 + Fixed error when not providing `HEX_DOCKER_HOST_IMPORT_PATH`
++ Added a workaround for the discrepancy between the `/add_urls/associate_url`
+  and `/add_urls/get_url_files` hydrus API routes in regards to normalization
 
 ## [1.0.1] - 2019-12-19
 
