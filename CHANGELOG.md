@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
++ Added missing example namespace replacements to Docker Compose example
+  configuration
+
 ## [1.1.0] - 2019-12-24
 
 ### Added
