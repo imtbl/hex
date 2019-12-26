@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.2.0] - 2019-12-26
+
 ### Changed
 
 + Adjusted the workaround implemented for the discrepancy between the
@@ -50,6 +52,7 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.1.0...develop
+[Unreleased]: https://github.com/mserajnik/hex/compare/1.2.0...develop
+[1.2.0]: https://github.com/mserajnik/hex/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/mserajnik/hex/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/mserajnik/hex/compare/1.0.0...1.0.1
