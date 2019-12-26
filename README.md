@@ -121,7 +121,7 @@ use it, regardless of if you decide to run with or without Docker:
   `add urls for processing`.
 + The import path needs to be accessible by both hex and hydrus, so you need to
   find a way to achieve this should you decide to run hex on a different
-  machine.
+  machine. This can, for example, be achieved by using [sshfs][sshfs].
 
 ### Running with Docker
 
@@ -335,6 +335,7 @@ You are welcome to help out!
 [browserless]: https://github.com/browserless/chrome
 [semantic-versioning]: https://semver.org/
 [docker-compose]: https://docs.docker.com/compose/
+[sshfs]: https://github.com/libfuse/sshfs
 
 [screenshot]: https://github.com/mserajnik/hex/raw/master/media/screenshot.png
 
