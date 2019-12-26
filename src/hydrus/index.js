@@ -79,7 +79,9 @@ const associateUrl = (fileHash, url) => {
     body: JSON.stringify({
       urls_to_add: [
         url,
-        `${url}?p=0`
+        url.endsWith('/')
+          ? `${url.replace(/\/([^/]*)$/, '$1')}?p=0`
+          : `${url}?p=0`
       ],
       hash: fileHash
     })

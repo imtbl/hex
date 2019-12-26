@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
++ Adjusted the workaround implemented for the discrepancy between the
+  `/add_urls/associate_url` and `/add_urls/get_url_files` routes so it makes
+  sure the normalized URL does not end with a `/`
+
 ### Fixed
 
 + Added missing example namespace replacements to Docker Compose example
