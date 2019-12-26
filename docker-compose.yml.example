@@ -33,5 +33,5 @@ services:
       - HEX_DELETE_ARCHIVES_AFTER_IMPORT=true
       - HEX_SKIP_TAGS=false
       - HEX_BLACKLISTED_NAMESPACES=
-      - HEX_NAMESPACE_REPLACEMENTS=artist|||creator###parody|||series###female|||###misc|||
+      - HEX_NAMESPACE_REPLACEMENTS=artist|||creator###parody|||series###female|||###male|||###group|||###misc|||
       - HEX_ADDITIONAL_TAGS=
