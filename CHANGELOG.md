@@ -13,6 +13,10 @@ and this project adheres to
 + Added the ability to define custom UID and GID for the Docker container at
   container creation
 
+### Changed
+
++ Updated dependencies
+
 ## [1.2.0] - 2019-12-26
 
 ### Changed
