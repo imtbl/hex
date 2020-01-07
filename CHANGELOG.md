@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
++ Fixed access control headers not being added after restana upgrade
+
 ## [1.3.0] - 2020-01-07
 
 ### Added
