@@ -31,16 +31,14 @@ const importer = require('./src/importer')
 service.use(bodyParser.json())
 
 service.use((req, res, next) => {
-  res.on('response', event => {
-    event.res.setHeader('Access-Control-Allow-Origin', '*')
-    event.res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Accept, Authorization, Content-Type, Origin, X-Requested-With'
-    )
-    event.res.setHeader(
-      'Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS'
-    )
-  })
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Accept, Authorization, Content-Type, Origin, X-Requested-With'
+  )
+  res.setHeader(
+    'Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS'
+  )
 
   if (req.method === 'OPTIONS') {
     return res.send()
