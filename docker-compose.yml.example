@@ -19,6 +19,8 @@ services:
       - ./import:/data
     environment:
       - TZ=Etc/UTC
+      - CUSTOM_UID=1000
+      - CUSTOM_GID=1000
       - HEX_PORT=8000
       - HEX_ACCESS_KEY=
       - HEX_BROWSER_WS_ENDPOINT=ws://localhost:3000

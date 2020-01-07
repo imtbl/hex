@@ -1,13 +1,10 @@
 #!/bin/sh
 
-stop() {
-  pkill node
-  sleep 1
-}
+USER_ID=${CUSTOM_UID:-1000}
+GROUP_ID=${CUSTOM_GID:-1000}
 
-trap "stop" SIGTERM
+echo "Setting permissions to UID/GID ${USER_ID}/${GROUP_ID}."
+chown ${USER_ID}:${GROUP_ID} -R /usr/src/app
+chown ${USER_ID}:${GROUP_ID} -R /data
 
-envsubst < .env.docker > .env
-
-yarn start &
-wait $!
+su-exec ${USER_ID}:${GROUP_ID} "$@"
