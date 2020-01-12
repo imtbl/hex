@@ -9,7 +9,7 @@ if (importPath.startsWith('.')) {
 }
 
 module.exports = {
-  version: '1.3.1',
+  version: '1.4.0',
   apiVersion: 2,
   port: process.env.HEX_PORT || 8000,
   accessKey: process.env.HEX_ACCESS_KEY,

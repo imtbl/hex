@@ -50,6 +50,11 @@ To use hex with Docker, you can simply pull the prebuilt image from
 user@local:~$ docker pull mserajnik/hex
 ```
 
+Alternatively, you can also build the image yourself. The user that is used
+inside the container has UID `1000` and GID `1000` by default. You can adjust
+this (e.g., to match your host UID/GID) by providing the arguments `USER_ID`
+and `GROUP_ID` when making a build.
+
 ### Installing without Docker
 
 To install without Docker, you can simply clone the repository and install
@@ -136,10 +141,6 @@ Finally, start the containers:
 ```zsh
 user@local:hex$ docker-compose up -d
 ```
-
-The user that is used inside the container when the script is run has the UID
-`1000` and the GID `1000` by default. You can change these by providing the
-environment variables `CUSTOM_UID` and `CUSTOM_GID` when creating a container.
 
 ### Running without Docker
 
