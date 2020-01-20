@@ -17,6 +17,7 @@ module.exports = {
     skipTags: Joi.boolean(),
     blacklistedNamespaces: Joi.string().allow(''),
     namespaceReplacements: Joi.string().allow(''),
-    additionalTags: Joi.string().allow('')
+    additionalTags: Joi.string().allow(''),
+    addUniqueIdentifierTag: Joi.boolean()
   })
 }

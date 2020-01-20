@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
++ Added the ability to add a special identifier tag to uniquely determine the
+  position of an image inside an archive
+
 ## [1.4.0] - 2020-01-12
 
 ### Removed

@@ -71,7 +71,7 @@ user@local:hex$ yarn
 + [hydrus][hydrus]
 + [Docker][docker] (when using Docker)
 + [Node.js][node-js] (when not using Docker)
-+ [Yarn][yarn] (when using Docker)
++ [Yarn][yarn] (when not using Docker)
 + A [Puppeteer][puppeteer]-compatible browser that hex uses for navigating and
   parsing ExH; [browserless][browserless] is recommended as a headless solution
 
@@ -81,10 +81,10 @@ using Docker, please [let me know][issues].
 
 ### Updating
 
-This script follows [semantic versioning][semantic-versioning] and any breaking
-changes that require additional attention will be released under a new major
-version (e.g., `2.0.0`). Minor version updates (e.g., `1.1.0` or `1.2.0`) are
-therefore always safe to simply install.
+This application follows [semantic versioning][semantic-versioning] and any
+breaking changes that require additional attention will be released under a new
+major version (e.g., `2.0.0`). Minor version updates (e.g., `1.1.0` or `1.2.0`)
+are therefore always safe to simply install.
 
 When necessary, this section will be expanded with upgrade guides for new major
 versions.
@@ -207,6 +207,11 @@ attention to the instructions to prevent issues.
 + `HEX_ADDITIONAL_TAGS=`: additional tags to be added. Have to be provided in
   the format `<namespace>:<tag>` or simply `<tag>` (for unnamespaced tags) and
   separated with `###`.
++ `HEX_ADD_UNIQUE_IDENTIFIER_TAG=false`: setting this to true causes hex to
+  add a tag in the form `unique:<ExH gallery ID>-<page>`. This tag is intended
+  to uniquely identify the position of an image inside an archive in case it is
+  used across multiple ones (in which case it might have multiple/different
+  `page` tags, making it hard to determine which one belongs to which archive).
 
 ### Userscript
 

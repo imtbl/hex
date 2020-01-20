@@ -109,6 +109,21 @@ module.exports = {
       process.exit(1)
     }
 
+    let galleryId
+
+    try {
+      galleryId = await page.evaluate(() => window.gid)
+    } catch (err) {
+      port.postMessage({
+        text: `${url}: does not seem to be a valid ExH gallery.`,
+        type: 'error'
+      })
+
+      port.close()
+
+      process.exit(1)
+    }
+
     let namespacedTags
 
     try {
@@ -263,6 +278,7 @@ module.exports = {
 
     return {
       url,
+      galleryId,
       downloadPath,
       namespacedTags
     }
