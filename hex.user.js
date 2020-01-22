@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name hex
-// @version 1.4.0
+// @version 1.5.0
 // @author Michael Serajnik
 // @description Userscript for hex, a hydrus API plugin to download ExH archives
 // @website https://github.com/mserajnik/hex
@@ -208,6 +208,7 @@ const start = async () => {
             <label>Skip import <input type="checkbox" name="skipImport"${settings.skipImport ? ' checked' : ''}></label>
             <label>Skip known files <input type="checkbox" name="skipKnownFiles"${settings.skipKnownFiles ? ' checked' : ''}></label>
             <label>Delete archives after import <input type="checkbox" name="deleteArchivesAfterImport"${settings.deleteArchivesAfterImport ? ' checked' : ''}></label>
+            <label>Add unique identifier tag <input type="checkbox" name="addUniqueIdentifierTag"${settings.addUniqueIdentifierTag ? ' checked' : ''}></label>
             <label>Skip tags <input type="checkbox" name="skipTags"${settings.skipTags ? ' checked' : ''}></label>
             <label>
               Blacklisted namespaces<br>
@@ -249,6 +250,7 @@ const start = async () => {
         'deleteArchivesAfterImport',
         data.has('deleteArchivesAfterImport')
       )
+      data.set('addUniqueIdentifierTag', data.has('addUniqueIdentifierTag'))
       data.set('skipTags', data.has('skipTags'))
 
       data.set('cookies', document.cookie)

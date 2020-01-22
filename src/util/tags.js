@@ -1,16 +1,16 @@
 module.exports = {
-  getArray (pattern, delimiter = '###') {
-    return pattern.trim() !== ''
-      ? pattern.split(delimiter).map(
+  getArray (tagsString, delimiter = '###') {
+    return tagsString && tagsString.trim() !== ''
+      ? tagsString.split(delimiter).map(
         item => item.trim()
       )
       : []
   },
-  getNamespaceReplacementsMapping (pattern) {
+  getNamespaceReplacementsMapping (namespacesString) {
     const namespaceReplacements = {}
 
-    if (pattern.trim() !== '') {
-      for (const replacement of pattern.split('###')) {
+    if (namespacesString && namespacesString.trim() !== '') {
+      for (const replacement of namespacesString.split('###')) {
         const replacementPair = replacement.split('|||')
 
         namespaceReplacements[replacementPair[0].trim()] = replacementPair[1]

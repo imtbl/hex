@@ -9,7 +9,7 @@ if (importPath.startsWith('.')) {
 }
 
 module.exports = {
-  version: '1.4.0',
+  version: '1.5.0',
   apiVersion: 2,
   port: process.env.HEX_PORT || 8000,
   accessKey: process.env.HEX_ACCESS_KEY,
@@ -23,7 +23,9 @@ module.exports = {
   hydrusTagService: process.env.HEX_HYDRUS_TAG_SERVICE || 'my tags',
   skipImport: process.env.HEX_SKIP_IMPORT === 'true',
   importPath: importPath,
-  dockerHostImportPath: process.env.HEX_DOCKER_HOST_IMPORT_PATH || '',
+  dockerHostImportPath: process.env.HEX_DOCKER_HOST_IMPORT_PATH
+    ? process.env.HEX_DOCKER_HOST_IMPORT_PATH.trim()
+    : '',
   skipKnownFiles: process.env.HEX_SKIP_KNOWN_FILES === 'true',
   deleteArchivesAfterImport:
     process.env.HEX_DELETE_ARCHIVES_AFTER_IMPORT === 'true',
@@ -32,5 +34,6 @@ module.exports = {
   namespaceReplacements: tags.getNamespaceReplacementsMapping(
     process.env.HEX_NAMESPACE_REPLACEMENTS
   ),
-  additionalTags: tags.getArray(process.env.HEX_ADDITIONAL_TAGS)
+  additionalTags: tags.getArray(process.env.HEX_ADDITIONAL_TAGS),
+  addUniqueIdentifierTag: process.env.HEX_ADD_UNIQUE_IDENTIFIER_TAG === 'true'
 }

@@ -75,7 +75,8 @@ service.get('/settings', async (req, res) => {
       skipTags: config.skipTags,
       blacklistedNamespaces: config.blacklistedNamespaces,
       namespaceReplacements: config.namespaceReplacements,
-      additionalTags: config.additionalTags
+      additionalTags: config.additionalTags,
+      addUniqueIdentifierTag: config.additionalTags
     }
   })
 })
@@ -92,7 +93,8 @@ service.post('/import', async (req, res) => {
       skipTags: req.body.skipTags,
       blacklistedNamespaces: req.body.blacklistedNamespaces,
       namespaceReplacements: req.body.namespaceReplacements,
-      additionalTags: req.body.additionalTags
+      additionalTags: req.body.additionalTags,
+      addUniqueIdentifierTag: req.body.addUniqueIdentifierTag
     })
   } catch (err) {
     return res.send({
@@ -111,7 +113,8 @@ service.post('/import', async (req, res) => {
     skipTags: req.body.skipTags,
     blacklistedNamespaces: req.body.blacklistedNamespaces,
     namespaceReplacements: req.body.namespaceReplacements,
-    additionalTags: req.body.additionalTags
+    additionalTags: req.body.additionalTags,
+    addUniqueIdentifierTag: req.body.addUniqueIdentifierTag
   })
 })
 

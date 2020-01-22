@@ -13,7 +13,7 @@ const getFilePaths = directoryPath => {
         reject(err)
       }
 
-      let assumedDockerHostImportPath = config.dockerHostImportPath.trim()
+      let assumedDockerHostImportPath = config.dockerHostImportPath
 
       if (assumedDockerHostImportPath) {
         assumedDockerHostImportPath = slash(assumedDockerHostImportPath)
@@ -106,8 +106,6 @@ const addTags = (fileHash, tags) => {
 
 module.exports = {
   async import (data, settings, port) {
-    let apiVersionResponse
-
     const deleteArchivesAfterImport =
       typeof settings.deleteArchivesAfterImport === 'boolean'
         ? settings.deleteArchivesAfterImport
@@ -115,6 +113,46 @@ module.exports = {
           ['true', 'false'].includes(settings.deleteArchivesAfterImport)
           ? settings.deleteArchivesAfterImport === 'true'
           : config.deleteArchivesAfterImport
+
+    const skipKnownFiles = typeof settings.skipKnownFiles === 'boolean'
+      ? settings.skipKnownFiles
+      : typeof settings.skipKnownFiles === 'string' &&
+        ['true', 'false'].includes(settings.skipKnownFiles)
+        ? settings.skipKnownFiles === 'true'
+        : config.skipKnownFiles
+
+    const skipTags = typeof settings.skipTags === 'boolean'
+      ? settings.skipTags
+      : typeof settings.skipTags === 'string' &&
+        ['true', 'false'].includes(settings.skipTags)
+        ? settings.skipTags === 'true'
+        : config.skipTags
+
+    const namespaceReplacements =
+      typeof settings.namespaceReplacements === 'string'
+        ? tags.getNamespaceReplacementsMapping(
+          settings.namespaceReplacements
+        )
+        : config.namespaceReplacements
+
+    const additionalTags = typeof settings.additionalTags === 'string'
+      ? tags.getArray(settings.additionalTags)
+      : config.additionalTags
+
+    const blacklistedNamespaces =
+      typeof settings.blacklistedNamespaces === 'string'
+        ? tags.getArray(settings.blacklistedNamespaces)
+        : config.blacklistedNamespaces
+
+    const addUniqueIdentifierTag =
+      typeof settings.addUniqueIdentifierTag === 'boolean'
+        ? settings.addUniqueIdentifierTag
+        : typeof settings.addUniqueIdentifierTag === 'string' &&
+          ['true', 'false'].includes(settings.addUniqueIdentifierTag)
+          ? settings.addUniqueIdentifierTag === 'true'
+          : config.addUniqueIdentifierTag
+
+    let apiVersionResponse
 
     try {
       apiVersionResponse = await getApiVersion()
@@ -309,13 +347,6 @@ module.exports = {
         process.exit(1)
       }
 
-      const skipKnownFiles = typeof settings.skipKnownFiles === 'boolean'
-        ? settings.skipKnownFiles
-        : typeof settings.skipKnownFiles === 'string' &&
-          ['true', 'false'].includes(settings.skipKnownFiles)
-          ? settings.skipKnownFiles === 'true'
-          : config.skipKnownFiles
-
       if (addFileResponse.status !== 1 && skipKnownFiles) {
         port.postMessage({
           text: `${data.url}: file ${filePath} is already known, skipping.`,
@@ -351,22 +382,8 @@ module.exports = {
         process.exit(1)
       }
 
-      const skipTags = typeof settings.skipTags === 'boolean'
-        ? settings.skipTags
-        : typeof settings.skipTags === 'string' &&
-          ['true', 'false'].includes(settings.skipTags)
-          ? settings.skipTags === 'true'
-          : config.skipTags
-
       if (!skipTags) {
         const finalizedTags = []
-
-        const namespaceReplacements =
-          typeof settings.namespaceReplacements === 'string'
-            ? tags.getNamespaceReplacementsMapping(
-              settings.namespaceReplacements
-            )
-            : config.namespaceReplacements
 
         for (const namespacedTags of data.namespacedTags) {
           let namespace = Object.prototype.hasOwnProperty.call(
@@ -386,21 +403,16 @@ module.exports = {
           }
         }
 
-        const additionalTags = typeof settings.additionalTags === 'string'
-          ? tags.getArray(settings.additionalTags)
-          : config.additionalTags
-
         for (const additionalTag of additionalTags) {
           finalizedTags.push(additionalTag)
         }
 
-        const blacklistedNamespaces =
-          typeof settings.blacklistedNamespaces === 'string'
-            ? tags.getArray(settings.blacklistedNamespaces)
-            : config.blacklistedNamespaces
-
         if (!blacklistedNamespaces.includes('page')) {
           finalizedTags.push(`page:${currentFileIndex}`)
+        }
+
+        if (addUniqueIdentifierTag) {
+          finalizedTags.push(`unique:${data.galleryId}-${currentFileIndex}`)
         }
 
         try {
