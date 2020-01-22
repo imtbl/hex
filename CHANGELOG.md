@@ -13,6 +13,10 @@ and this project adheres to
 + Added the ability to add a special identifier tag to uniquely determine the
   position of an image inside an archive
 
+### Changed
+
++ Updated dependencies
+
 ## [1.4.0] - 2020-01-12
 
 ### Removed
