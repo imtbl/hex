@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name hex
-// @version 1.4.0
+// @version 1.5.0
 // @author Michael Serajnik
 // @description Userscript for hex, a hydrus API plugin to download ExH archives
 // @website https://github.com/mserajnik/hex
