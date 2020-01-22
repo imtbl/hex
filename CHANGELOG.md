@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.5.0] - 2020-01-22
+
 ### Added
 
 + Added the ability to add a special identifier tag to uniquely determine the
@@ -85,7 +87,8 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.4.0...develop
+[Unreleased]: https://github.com/mserajnik/hex/compare/1.5.0...develop
+[1.5.0]: https://github.com/mserajnik/hex/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/mserajnik/hex/compare/1.3.1...1.4.0
 [1.3.1]: https://github.com/mserajnik/hex/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/mserajnik/hex/compare/1.2.0...1.3.0
