@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
++ Errors occuring during navigation to the download page are now handled
+
 ## [1.5.0] - 2020-01-22
 
 ### Added
