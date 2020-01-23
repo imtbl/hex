@@ -240,7 +240,18 @@ module.exports = {
       process.exit(1)
     }
 
-    await page.waitForNavigation()
+    try {
+      await page.waitForNavigation()
+    } catch (err) {
+      port.postMessage({
+        text: `${url}: error while trying to navigate to download page.`,
+        type: 'error'
+      })
+
+      port.close()
+
+      process.exit(1)
+    }
 
     const downloadLink = `${page.url()}?start=1`
 

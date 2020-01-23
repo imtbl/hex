@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.5.1] - 2020-01-23
+
+### Fixed
+
++ Errors occuring during navigation to the download page are now handled
+
 ## [1.5.0] - 2020-01-22
 
 ### Added
@@ -87,7 +93,8 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.5.0...develop
+[Unreleased]: https://github.com/mserajnik/hex/compare/1.5.1...develop
+[1.5.1]: https://github.com/mserajnik/hex/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/mserajnik/hex/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/mserajnik/hex/compare/1.3.1...1.4.0
 [1.3.1]: https://github.com/mserajnik/hex/compare/1.3.0...1.3.1
