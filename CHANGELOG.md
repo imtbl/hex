@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
++ Corrected the inability to extract large archives by using a stream instead
+  of a buffer
+
 ## [1.5.1] - 2020-01-23
 
 ### Fixed

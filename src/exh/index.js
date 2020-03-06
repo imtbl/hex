@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const puppeteer = require('puppeteer-core')
 const fetch = require('node-fetch')
-const Zip = require('adm-zip')
+const unzipper = require('unzipper')
 
 const config = require('../config')
 const tags = require('../util/tags')
@@ -42,6 +42,17 @@ const downloadArchive = (url, destination) => {
         return Promise.reject(err)
       })
     })
+}
+
+const extractArchive = archivePath => {
+  const zipPath = `${archivePath}.zip`
+
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(zipPath)
+      .pipe(unzipper.Extract({ path: archivePath }))
+      .on('error', err => reject(err))
+      .on('finish', resolve)
+  })
 }
 
 const removeArchive = archivePath => {
@@ -264,21 +275,30 @@ module.exports = {
       })
     }
 
-    let downloadPath
+    const downloadPath = path.resolve(
+      config.importPath, `hex_${Math.floor(Date.now())}`
+    )
 
     try {
-      downloadPath = path.resolve(
-        config.importPath, `hex_${Math.floor(Date.now())}`
-      )
+      await downloadArchive(downloadLink, downloadPath)
+    } catch (err) {
+      port.postMessage({
+        text: `${url}: error while trying to download ${downloadLink}.`,
+        type: 'error'
+      })
 
-      new Zip(await downloadArchive(downloadLink, downloadPath)).extractAllTo(
-        downloadPath, true
-      )
+      port.close()
+
+      process.exit(1)
+    }
+
+    try {
+      await extractArchive(downloadPath)
 
       await removeArchive(downloadPath)
     } catch (err) {
       port.postMessage({
-        text: `${url}: error while trying to download ${downloadLink}.`,
+        text: `${url}: error while trying to extract the downloaded archive.`,
         type: 'error'
       })
 
