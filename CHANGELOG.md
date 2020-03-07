@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
++ Updated dependencies
+
 ### Fixed
 
 + Corrected the inability to extract large archives by using a stream instead
