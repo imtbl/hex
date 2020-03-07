@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.6.0] - 2020-03-07
+
 ### Changed
 
 + Updated dependencies
@@ -102,7 +104,8 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.5.1...develop
+[Unreleased]: https://github.com/mserajnik/hex/compare/1.6.0...develop
+[1.6.0]: https://github.com/mserajnik/hex/compare/1.5.1...1.6.0
 [1.5.1]: https://github.com/mserajnik/hex/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/mserajnik/hex/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/mserajnik/hex/compare/1.3.1...1.4.0
