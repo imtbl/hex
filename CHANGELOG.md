@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
++ Added more log output about the currently worked on file
+
 ## [1.6.0] - 2020-03-07
 
 ### Changed
