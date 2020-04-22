@@ -12,6 +12,10 @@ and this project adheres to
 
 + Added more log output about the currently worked on file
 
+### Changed
+
++ Updated dependencies
+
 ## [1.6.0] - 2020-03-07
 
 ### Changed
