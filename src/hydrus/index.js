@@ -326,7 +326,8 @@ module.exports = {
         addFileResponse = await addFileResponse.json()
       } catch (err) {
         port.postMessage({
-          text: `${data.url}: could not import file ${filePath} into hydrus.`,
+          text: `${data.url}: could not import file ${filePath} ` +
+            `(${currentFileIndex}/${filePaths.length}) into hydrus.`,
           type: 'error'
         })
 
@@ -349,7 +350,9 @@ module.exports = {
 
       if (addFileResponse.status !== 1 && skipKnownFiles) {
         port.postMessage({
-          text: `${data.url}: file ${filePath} is already known, skipping.`,
+          text: `${data.url}: file ${filePath} ` +
+            `(${currentFileIndex}/${filePaths.length}) ` +
+            'is already known, skipping.',
           type: 'info'
         })
 
@@ -360,8 +363,9 @@ module.exports = {
         await associateUrl(addFileResponse.hash, data.url)
       } catch (err) {
         port.postMessage({
-          text: `${data.url}: could not associate URL ${data.url} to ` +
-            `${addFileResponse.hash}.`,
+          text: `${data.url}: could not associate URL ${data.url} with ` +
+            `${addFileResponse.hash} ` +
+            `(${currentFileIndex}/${filePaths.length}).`,
           type: 'error'
         })
 
@@ -419,7 +423,9 @@ module.exports = {
           await addTags(addFileResponse.hash, finalizedTags)
         } catch (err) {
           port.postMessage({
-            text: `${data.url}: could not add tags to ${addFileResponse.hash}.`,
+            text: `${data.url}: could not add tags to ` +
+              `${addFileResponse.hash} ` +
+              `(${currentFileIndex}/${filePaths.length}).`,
             type: 'error'
           })
 
@@ -440,6 +446,12 @@ module.exports = {
           process.exit(1)
         }
       }
+
+      port.postMessage({
+        text: `${data.url}: successfully imported file ${filePath} ` +
+          `(${currentFileIndex}/${filePaths.length}) into hydrus.`,
+        type: 'info'
+      })
     }
 
     port.postMessage({
