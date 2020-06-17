@@ -10,7 +10,7 @@ services:
       - TZ=Etc/UTC
 
   hex:
-    image: mserajnik/hex:latest
+    image: mtbl/hex:latest
     depends_on:
       - chrome
     restart: unless-stopped

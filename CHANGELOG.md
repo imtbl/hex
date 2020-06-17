@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.9.0] - 2020-06-17
+
+### Changed
+
++ Updated the hydrus API version to `12`
+
 ## [1.8.0] - 2020-05-22
 
 ### Changed
@@ -120,15 +126,15 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/mserajnik/hex/compare/1.8.0...develop
-[1.8.0]: https://github.com/mserajnik/hex/compare/1.7.0...1.8.0
-[1.7.0]: https://github.com/mserajnik/hex/compare/1.6.0...1.7.0
-[1.6.0]: https://github.com/mserajnik/hex/compare/1.5.1...1.6.0
-[1.5.1]: https://github.com/mserajnik/hex/compare/1.5.0...1.5.1
-[1.5.0]: https://github.com/mserajnik/hex/compare/1.4.0...1.5.0
-[1.4.0]: https://github.com/mserajnik/hex/compare/1.3.1...1.4.0
-[1.3.1]: https://github.com/mserajnik/hex/compare/1.3.0...1.3.1
-[1.3.0]: https://github.com/mserajnik/hex/compare/1.2.0...1.3.0
-[1.2.0]: https://github.com/mserajnik/hex/compare/1.1.0...1.2.0
-[1.1.0]: https://github.com/mserajnik/hex/compare/1.0.1...1.1.0
-[1.0.1]: https://github.com/mserajnik/hex/compare/1.0.0...1.0.1
+[1.9.0]: https://github.com/imtbl/hex/compare/1.8.0...1.9.0
+[1.8.0]: https://github.com/imtbl/hex/compare/1.7.0...1.8.0
+[1.7.0]: https://github.com/imtbl/hex/compare/1.6.0...1.7.0
+[1.6.0]: https://github.com/imtbl/hex/compare/1.5.1...1.6.0
+[1.5.1]: https://github.com/imtbl/hex/compare/1.5.0...1.5.1
+[1.5.0]: https://github.com/imtbl/hex/compare/1.4.0...1.5.0
+[1.4.0]: https://github.com/imtbl/hex/compare/1.3.1...1.4.0
+[1.3.1]: https://github.com/imtbl/hex/compare/1.3.0...1.3.1
+[1.3.0]: https://github.com/imtbl/hex/compare/1.2.0...1.3.0
+[1.2.0]: https://github.com/imtbl/hex/compare/1.1.0...1.2.0
+[1.1.0]: https://github.com/imtbl/hex/compare/1.0.1...1.1.0
+[1.0.1]: https://github.com/imtbl/hex/compare/1.0.0...1.0.1
