@@ -8,12 +8,12 @@
     "hydrusnetwork",
     "exhentai"
   ],
-  "author": "Michael Serajnik <ms@mserajnik.at>",
+  "author": "imtbl <imtbl@mser.at>",
   "license": "AGPL-3.0-or-later",
   "private": true,
-  "repository": "https://mserajnik@github.com/mserajnik/hex.git",
+  "repository": "https://imtbl@github.com/imtbl/hex.git",
   "bugs": {
-    "url": "https://github.com/mserajnik/hex/issues"
+    "url": "https://github.com/imtbl/hex/issues"
   },
   "scripts": {
     "start": "node index.js"

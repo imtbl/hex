@@ -47,7 +47,7 @@ To use hex with Docker, you can simply pull the prebuilt image from
 [Docker Hub][docker-hub]:
 
 ```zsh
-user@local:~$ docker pull mserajnik/hex
+user@local:~$ docker pull mtbl/hex
 ```
 
 Alternatively, you can also build the image yourself. The user that is used
@@ -61,7 +61,7 @@ To install without Docker, you can simply clone the repository and install
 dependencies.
 
 ```zsh
-user@local:~$ git clone https://github.com/mserajnik/hex.git
+user@local:~$ git clone https://github.com/imtbl/hex.git
 user@local:~$ cd hex
 user@local:hex$ yarn
 ```
@@ -94,7 +94,7 @@ versions.
 Simply pull the latest Docker image to update:
 
 ```zsh
-user@local:~$ docker pull mserajnik/hex
+user@local:~$ docker pull mtbl/hex
 ```
 
 #### Updating without Docker
@@ -318,7 +318,7 @@ __Response on success:__
 
 ## Maintainer
 
-[mserajnik][maintainer]
+[imtbl][maintainer]
 
 ## Contribute
 
@@ -328,11 +328,11 @@ You are welcome to help out!
 
 ## License
 
-[AGPLv3](LICENSE) © Michael Serajnik
+[AGPLv3](LICENSE) © imtbl
 
 [hydrus]: http://hydrusnetwork.github.io/hydrus
 [docker]: https://www.docker.com/
-[docker-hub]: https://hub.docker.com/r/mserajnik/hex/
+[docker-hub]: https://hub.docker.com/r/mtbl/hex/
 [node-js]: https://nodejs.org/en/
 [yarn]: https://yarnpkg.com/
 [puppeteer]: https://pptr.dev/
@@ -341,9 +341,9 @@ You are welcome to help out!
 [docker-compose]: https://docs.docker.com/compose/
 [sshfs]: https://github.com/libfuse/sshfs
 
-[screenshot]: https://github.com/mserajnik/hex/raw/master/media/screenshot.png
+[screenshot]: https://github.com/imtbl/hex/raw/master/media/screenshot.png
 
-[docker-hub-badge]: https://img.shields.io/docker/cloud/automated/mserajnik/hex.svg
+[docker-hub-badge]: https://img.shields.io/docker/cloud/automated/mtbl/hex.svg
 
-[maintainer]: https://github.com/mserajnik
-[issues]: https://github.com/mserajnik/hex/issues/new
+[maintainer]: https://github.com/imtbl
+[issues]: https://github.com/imtbl/hex/issues/new

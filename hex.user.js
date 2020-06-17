@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name hex
 // @version 1.7.0
-// @author Michael Serajnik
+// @author imtbl
 // @description Userscript for hex, a hydrus API plugin to download ExH archives
-// @website https://github.com/mserajnik/hex
-// @updateURL https://github.com/mserajnik/hex/raw/master/hex.user.js
-// @downloadURL https://github.com/mserajnik/hex/raw/master/hex.user.js
-// @supportURL https://github.com/mserajnik/hex/issues/new
+// @website https://github.com/imtbl/hex
+// @updateURL https://github.com/imtbl/hex/raw/master/hex.user.js
+// @downloadURL https://github.com/imtbl/hex/raw/master/hex.user.js
+// @supportURL https://github.com/imtbl/hex/issues/new
 // @match *://exhentai.org/*
 // @grant GM_setValue
 // @grant GM_getValue
