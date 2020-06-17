@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name hex
-// @version 1.7.0
+// @version 1.8.0
 // @author imtbl
 // @description Userscript for hex, a hydrus API plugin to download ExH archives
 // @website https://github.com/imtbl/hex
