@@ -4,11 +4,11 @@ module.exports = {
       case 'error':
         console.error(`${new Date().toLocaleString()}:`, message)
 
-        break
+        return
       case 'warning':
         console.warn(`${new Date().toLocaleString()}:`, message)
 
-        break
+        return
       default:
         console.info(`${new Date().toLocaleString()}:`, message)
     }
