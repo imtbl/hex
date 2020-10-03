@@ -44,6 +44,14 @@ const removeExtractedArchive = archivePath => {
   })
 }
 
+const accessKeyHeader = {
+  'Hydrus-Client-API-Access-Key': config.hydrusAccessKey
+}
+
+const contentTypeJsonHeader = {
+  'Content-Type': 'application/json'
+}
+
 const getApiVersion = () => {
   return fetch(`${config.hydrusBaseUrl}/api_version`)
 }
@@ -51,7 +59,7 @@ const getApiVersion = () => {
 const verifyAccessKey = () => {
   return fetch(`${config.hydrusBaseUrl}/verify_access_key`, {
     headers: {
-      'Hydrus-Client-API-Access-Key': config.hydrusAccessKey
+      ...accessKeyHeader
     }
   })
 }
@@ -60,8 +68,8 @@ const addFile = filePath => {
   return fetch(`${config.hydrusBaseUrl}/add_files/add_file`, {
     method: 'post',
     headers: {
-      'Hydrus-Client-API-Access-Key': config.hydrusAccessKey,
-      'Content-Type': 'application/json'
+      ...accessKeyHeader,
+      ...contentTypeJsonHeader
     },
     body: JSON.stringify({
       path: filePath
@@ -73,8 +81,8 @@ const associateUrl = (fileHash, url) => {
   return fetch(`${config.hydrusBaseUrl}/add_urls/associate_url`, {
     method: 'post',
     headers: {
-      'Hydrus-Client-API-Access-Key': config.hydrusAccessKey,
-      'Content-Type': 'application/json'
+      ...accessKeyHeader,
+      ...contentTypeJsonHeader
     },
     body: JSON.stringify({
       urls_to_add: [
@@ -92,8 +100,8 @@ const addTags = (fileHash, tags) => {
   return fetch(`${config.hydrusBaseUrl}/add_tags/add_tags`, {
     method: 'post',
     headers: {
-      'Hydrus-Client-API-Access-Key': config.hydrusAccessKey,
-      'Content-Type': 'application/json'
+      ...accessKeyHeader,
+      ...contentTypeJsonHeader
     },
     body: JSON.stringify({
       hash: fileHash,

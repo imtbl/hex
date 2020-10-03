@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.11.0] - 2020-10-3
+
+### Changed
+
++ Updated the hydrus API version to `14`
+
 ## [1.10.0] - 2020-06-29
 
 ### Changed
@@ -132,7 +138,8 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/imtbl/hex/compare/1.10.0...develop
+[Unreleased]: https://github.com/imtbl/hex/compare/1.11.0...develop
+[1.11.0]: https://github.com/imtbl/hex/compare/1.10.0...1.11.0
 [1.10.0]: https://github.com/imtbl/hex/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/imtbl/hex/compare/1.8.0...1.9.0
 [1.8.0]: https://github.com/imtbl/hex/compare/1.7.0...1.8.0

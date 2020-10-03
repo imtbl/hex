@@ -9,14 +9,14 @@ if (importPath.startsWith('.')) {
 }
 
 module.exports = {
-  version: '1.10.0',
+  version: '1.11.0',
   apiVersion: 2,
   port: process.env.HEX_PORT || 8000,
   accessKey: process.env.HEX_ACCESS_KEY,
   browserWSEndpoint: process.env.HEX_BROWSER_WS_ENDPOINT ||
     'ws://localhost:3000',
   hydrusBaseUrl: process.env.HEX_HYDRUS_BASE_URL || 'http://localhost:45869',
-  hydrusApiVersion: 13,
+  hydrusApiVersion: 14,
   hydrusAllowNewerApiVersion:
     process.env.HEX_HYDRUS_ALLOW_NEWER_API_VERSION === 'true',
   hydrusAccessKey: process.env.HEX_HYDRUS_ACCESS_KEY,
