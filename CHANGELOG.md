@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
++ Updated the hydrus API version to `15`
+
 ## [1.11.0] - 2020-10-3
 
 ### Changed

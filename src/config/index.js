@@ -16,7 +16,7 @@ module.exports = {
   browserWSEndpoint: process.env.HEX_BROWSER_WS_ENDPOINT ||
     'ws://localhost:3000',
   hydrusBaseUrl: process.env.HEX_HYDRUS_BASE_URL || 'http://localhost:45869',
-  hydrusApiVersion: 14,
+  hydrusApiVersion: 15,
   hydrusAllowNewerApiVersion:
     process.env.HEX_HYDRUS_ALLOW_NEWER_API_VERSION === 'true',
   hydrusAccessKey: process.env.HEX_HYDRUS_ACCESS_KEY,
