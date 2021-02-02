@@ -165,6 +165,8 @@ attention to the instructions to prevent issues.
 + `HEX_BROWSER_WS_ENDPOINT=ws://localhost:3000`: the WebSocket endpoint of the
   [Puppeteer]-compatible browser hex needs to be able to connect to. __No__
   __trailing slashes.__
++ `HEX_BROWSER_USER_AGENT=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36`:
+  the user agent to use with Puppeteer.
 + `HEX_HYDRUS_BASE_URL=http://localhost:45869`: the hydrus client API base URL.
   __No trailing slashes.__
 + `HEX_HYDRUS_ALLOW_NEWER_API_VERSION=false`: setting this to `true` allows hex

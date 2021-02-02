@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
++ Added the ability to use a custom user agent with Puppeteer
+
 ## [1.12.0] - 2020-12-19
 
 ### Changed
