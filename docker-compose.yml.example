@@ -22,6 +22,7 @@ services:
       - HEX_PORT=8000
       - HEX_ACCESS_KEY=
       - HEX_BROWSER_WS_ENDPOINT=ws://localhost:3000
+      - HEX_BROWSER_USER_AGENT=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36
       - HEX_HYDRUS_BASE_URL=http://localhost:45869
       - HEX_HYDRUS_ALLOW_NEWER_API_VERSION=false
       - HEX_HYDRUS_ACCESS_KEY=

@@ -92,6 +92,7 @@ module.exports = {
 
     try {
       page = await browser.newPage()
+      await page.setUserAgent(config.browserUserAgent)
     } catch (err) {
       port.postMessage({
         text: `${url}: error while trying to open a new browser page.`,
