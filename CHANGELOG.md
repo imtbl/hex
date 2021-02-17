@@ -12,6 +12,7 @@ and this project adheres to
 
 + Made it so that user agent and cookies are also used for the actual archive
   download
++ Made the namespace that is used for the unique identifier tag configurable
 
 ### Fixed
 

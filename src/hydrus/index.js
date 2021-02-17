@@ -160,6 +160,11 @@ module.exports = {
           ? settings.addUniqueIdentifierTag === 'true'
           : config.addUniqueIdentifierTag
 
+    const uniqueIdentifierNamespace =
+      typeof settings.uniqueIdentifierNamespace === 'string'
+        ? settings.uniqueIdentifierNamespace.trim()
+        : config.uniqueIdentifierNamespace.trim()
+
     let apiVersionResponse
 
     try {
@@ -423,8 +428,11 @@ module.exports = {
           finalizedTags.push(`page:${currentFileIndex}`)
         }
 
-        if (addUniqueIdentifierTag) {
-          finalizedTags.push(`unique:${data.galleryId}-${currentFileIndex}`)
+        if (addUniqueIdentifierTag && uniqueIdentifierNamespace !== '') {
+          finalizedTags.push(
+            `${uniqueIdentifierNamespace}:` +
+              `${data.galleryId}-${currentFileIndex}`
+          )
         }
 
         try {

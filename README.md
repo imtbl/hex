@@ -210,10 +210,14 @@ attention to the instructions to prevent issues.
   the format `<namespace>:<tag>` or simply `<tag>` (for unnamespaced tags) and
   separated with `###`.
 + `HEX_ADD_UNIQUE_IDENTIFIER_TAG=false`: setting this to true causes hex to
-  add a tag in the form `unique:<ExH gallery ID>-<page>`. This tag is intended
-  to uniquely identify the position of an image inside an archive in case it is
-  used across multiple ones (in which case it might have multiple/different
-  `page` tags, making it hard to determine which one belongs to which archive).
+  add a tag in the form
+  `<HEX_UNIQUE_IDENTIFIER_NAMESPACE>:<ExH gallery ID>-<page>`. This tag is
+  intended to uniquely identify the position of an image inside an archive in
+  case it is used across multiple ones (in which case it might have
+  multiple/different `page` tags, making it hard to determine which one belongs
+  to which archive).
++ `HEX_UNIQUE_IDENTIFIER_NAMESPACE=unique`: the namespace to use for the unique
+  identifier tag when `HEX_ADD_UNIQUE_IDENTIFIER_TAG` is `true`.
 
 ### Userscript
 

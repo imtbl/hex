@@ -179,7 +179,7 @@ const start = async () => {
         }
 
         .hex-bar__form__settings input[type="text"] {
-          width: 200px;
+          width: 150px;
         }
 
         .hex-bar__form__download {
@@ -222,6 +222,10 @@ const start = async () => {
           <label>
             Additional tags<br>
             <input type="text" name="additionalTags" placeholder="Additional tags" value="${getDelimitedString(settings.additionalTags)}">
+          </label>
+          <label>
+            Unique identifier namespace<br>
+            <input type="text" name="uniqueIdentifierNamespace" placeholder="Unique identifier namespace" value="${settings.uniqueIdentifierNamespace}">
           </label>
         </div>
         <div class="hex-bar__form__download">

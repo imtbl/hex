@@ -76,7 +76,8 @@ service.get('/settings', async (req, res) => {
       blacklistedNamespaces: config.blacklistedNamespaces,
       namespaceReplacements: config.namespaceReplacements,
       additionalTags: config.additionalTags,
-      addUniqueIdentifierTag: config.additionalTags
+      addUniqueIdentifierTag: config.additionalTags,
+      uniqueIdentifierNamespace: config.uniqueIdentifierNamespace
     }
   })
 })
@@ -94,7 +95,8 @@ service.post('/import', async (req, res) => {
       blacklistedNamespaces: req.body.blacklistedNamespaces,
       namespaceReplacements: req.body.namespaceReplacements,
       additionalTags: req.body.additionalTags,
-      addUniqueIdentifierTag: req.body.addUniqueIdentifierTag
+      addUniqueIdentifierTag: req.body.addUniqueIdentifierTag,
+      uniqueIdentifierNamespace: req.body.uniqueIdentifierNamespace
     })
   } catch (err) {
     return res.send({
@@ -114,7 +116,8 @@ service.post('/import', async (req, res) => {
     blacklistedNamespaces: req.body.blacklistedNamespaces,
     namespaceReplacements: req.body.namespaceReplacements,
     additionalTags: req.body.additionalTags,
-    addUniqueIdentifierTag: req.body.addUniqueIdentifierTag
+    addUniqueIdentifierTag: req.body.addUniqueIdentifierTag,
+    uniqueIdentifierNamespace: req.body.uniqueIdentifierNamespace
   })
 })
 

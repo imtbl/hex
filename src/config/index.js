@@ -37,5 +37,7 @@ module.exports = {
     process.env.HEX_NAMESPACE_REPLACEMENTS
   ),
   additionalTags: tags.getArray(process.env.HEX_ADDITIONAL_TAGS),
-  addUniqueIdentifierTag: process.env.HEX_ADD_UNIQUE_IDENTIFIER_TAG === 'true'
+  addUniqueIdentifierTag: process.env.HEX_ADD_UNIQUE_IDENTIFIER_TAG === 'true',
+  uniqueIdentifierNamespace: process.env.HEX_UNIQUE_IDENTIFIER_NAMESPACE ||
+    'unique'
 }
