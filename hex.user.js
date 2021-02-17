@@ -96,7 +96,7 @@ const getDelimitedNamespaceReplacements = namespaceReplacements => {
 }
 
 const start = async () => {
-  if (document.getElementById('gd5')) {
+  if (!document.getElementById('gd5')) {
     return
   }
 

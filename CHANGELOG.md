@@ -13,6 +13,11 @@ and this project adheres to
 + Made it so that user agent and cookies are also used for the actual archive
   download
 
+### Fixed
+
++ Fixed the hex toolbar (that is added via userscript) not appearing on gallery
+  pages and instead incorrectly displaying on all other ExH pages
+
 ## [1.13.0] - 2021-02-02
 
 ### Added
