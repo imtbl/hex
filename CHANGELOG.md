@@ -8,6 +8,19 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.14.0] - 2021-02-17
+
+### Changed
+
++ Made it so that user agent and cookies are also used for the actual archive
+  download
++ Made the namespace that is used for the unique identifier tag configurable
+
+### Fixed
+
++ Fixed the hex toolbar (that is added via userscript) not appearing on gallery
+  pages and instead incorrectly displaying on all other ExH pages
+
 ## [1.13.0] - 2021-02-02
 
 ### Added
@@ -150,7 +163,8 @@ and this project adheres to
 
 + Initial release
 
-[Unreleased]: https://github.com/imtbl/hex/compare/1.13.0...develop
+[Unreleased]: https://github.com/imtbl/hex/compare/1.14.0...develop
+[1.14.0]: https://github.com/imtbl/hex/compare/1.13.0...1.14.0
 [1.13.0]: https://github.com/imtbl/hex/compare/1.12.0...1.13.0
 [1.12.0]: https://github.com/imtbl/hex/compare/1.11.0...1.12.0
 [1.11.0]: https://github.com/imtbl/hex/compare/1.10.0...1.11.0

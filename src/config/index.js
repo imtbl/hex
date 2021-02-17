@@ -9,7 +9,7 @@ if (importPath.startsWith('.')) {
 }
 
 module.exports = {
-  version: '1.13.0',
+  version: '1.14.0',
   apiVersion: 2,
   port: process.env.HEX_PORT || 8000,
   accessKey: process.env.HEX_ACCESS_KEY,
@@ -37,5 +37,7 @@ module.exports = {
     process.env.HEX_NAMESPACE_REPLACEMENTS
   ),
   additionalTags: tags.getArray(process.env.HEX_ADDITIONAL_TAGS),
-  addUniqueIdentifierTag: process.env.HEX_ADD_UNIQUE_IDENTIFIER_TAG === 'true'
+  addUniqueIdentifierTag: process.env.HEX_ADD_UNIQUE_IDENTIFIER_TAG === 'true',
+  uniqueIdentifierNamespace: process.env.HEX_UNIQUE_IDENTIFIER_NAMESPACE ||
+    'unique'
 }

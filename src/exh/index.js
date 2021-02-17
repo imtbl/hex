@@ -7,10 +7,15 @@ const unzipper = require('unzipper')
 const config = require('../config')
 const tags = require('../util/tags')
 
-const downloadArchive = (url, destination) => {
+const downloadArchive = (url, destination, cookies) => {
   const zipDestination = `${destination}.zip`
 
-  return fetch(url)
+  return fetch(url, {
+    headers: {
+      Cookie: cookies,
+      'User-Agent': config.browserUserAgent
+    }
+  })
     .then(res => res.ok
       ? res
       : Promise.reject(new Error('Initial error downloading file.'))
@@ -281,7 +286,7 @@ module.exports = {
     )
 
     try {
-      await downloadArchive(downloadLink, downloadPath)
+      await downloadArchive(downloadLink, downloadPath, cookies)
     } catch (err) {
       port.postMessage({
         text: `${url}: error while trying to download ${downloadLink}.`,

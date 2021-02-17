@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name hex
-// @version 1.13.0
+// @version 1.14.0
 // @author imtbl
 // @description Userscript for hex, a hydrus API plugin to download ExH archives
 // @website https://github.com/imtbl/hex
@@ -13,14 +13,14 @@
 // @grant GM_registerMenuCommand
 // ==/UserScript==
 
-let hexBaseUrl = GM_getValue('hexBaseUrl', '')
-let hexAccessKey = GM_getValue('hexAccessKey', '')
+let hexBaseUrl = window.GM_getValue('hexBaseUrl', '')
+let hexAccessKey = window.GM_getValue('hexAccessKey', '')
 
 const fetchOrPrompt = (value, prompt, key, defaultValue = '') => {
   if (!value) {
     value = window.prompt(`${prompt} not set, please enter it:`, defaultValue)
 
-    GM_setValue(key, value)
+    window.GM_setValue(key, value)
   }
 
   return value
@@ -29,7 +29,7 @@ const fetchOrPrompt = (value, prompt, key, defaultValue = '') => {
 const promptAndChangeStoredValue = (value, prompt, key) => {
   value = window.prompt(`Change ${prompt}:`, value)
 
-  GM_setValue(key, value)
+  window.GM_setValue(key, value)
 }
 
 const changeBaseUrl = () => {
@@ -40,8 +40,8 @@ const changeAccessKey = () => {
   promptAndChangeStoredValue(hexAccessKey, 'hex access key', 'hexAccessKey')
 }
 
-GM_registerMenuCommand('Change hex base URL', changeBaseUrl)
-GM_registerMenuCommand('Change hex access key', changeAccessKey)
+window.GM_registerMenuCommand('Change hex base URL', changeBaseUrl)
+window.GM_registerMenuCommand('Change hex access key', changeAccessKey)
 
 hexBaseUrl = fetchOrPrompt(
   hexBaseUrl, 'hex base URL', 'hexBaseUrl', 'http://localhost:8000'
@@ -57,11 +57,11 @@ const elementFromHtml = html => {
 }
 
 const getHexInfo = () => {
-  return fetch(`${hexBaseUrl}`)
+  return window.fetch(`${hexBaseUrl}`)
 }
 
 const getHexSettings = () => {
-  return fetch(`${hexBaseUrl}/settings`, {
+  return window.fetch(`${hexBaseUrl}/settings`, {
     headers: {
       Authorization: `Bearer ${hexAccessKey}`
     }
@@ -69,7 +69,7 @@ const getHexSettings = () => {
 }
 
 const sendToHex = data => {
-  return fetch(`${hexBaseUrl}/import`, {
+  return window.fetch(`${hexBaseUrl}/import`, {
     method: 'post',
     headers: {
       Authorization: `Bearer ${hexAccessKey}`,
@@ -96,7 +96,7 @@ const getDelimitedNamespaceReplacements = namespaceReplacements => {
 }
 
 const start = async () => {
-  if (document.getElementById('gd5')) {
+  if (!document.getElementById('gd5')) {
     return
   }
 
@@ -113,7 +113,7 @@ const start = async () => {
   }
 
   if (info.apiVersion !== 2) {
-    alert(
+    window.alert(
       'This userscript supports API version 2, while your hex ' +
       `installation is using version ${info.apiVersion}. Please adjust ` +
       'your installation or change the userscript manually.'
@@ -179,7 +179,7 @@ const start = async () => {
         }
 
         .hex-bar__form__settings input[type="text"] {
-          width: 200px;
+          width: 150px;
         }
 
         .hex-bar__form__download {
@@ -223,6 +223,10 @@ const start = async () => {
             Additional tags<br>
             <input type="text" name="additionalTags" placeholder="Additional tags" value="${getDelimitedString(settings.additionalTags)}">
           </label>
+          <label>
+            Unique identifier namespace<br>
+            <input type="text" name="uniqueIdentifierNamespace" placeholder="Unique identifier namespace" value="${settings.uniqueIdentifierNamespace}">
+          </label>
         </div>
         <div class="hex-bar__form__download">
           <button id="hex-download-button" type="submit">Download</button>
@@ -243,7 +247,7 @@ const start = async () => {
   hexForm.addEventListener('submit', event => {
     event.preventDefault()
 
-    const data = new FormData(hexForm)
+    const data = new window.FormData(hexForm)
 
     data.set('skipImport', data.has('skipImport'))
     data.set('skipKnownFiles', data.has('skipKnownFiles'))
