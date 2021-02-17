@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
++ Made it so that user agent and cookies are also used for the actual archive
+  download
+
 ## [1.13.0] - 2021-02-02
 
 ### Added
