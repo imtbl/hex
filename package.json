@@ -16,7 +16,8 @@
     "url": "https://github.com/imtbl/hex/issues"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "eslint ."
   },
   "engines": {
     "node": ">=14.0.0 <16.0.0"
@@ -24,18 +25,18 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
-    "joi": "^17.3.0",
+    "joi": "^17.4.0",
     "node-fetch": "^2.6.1",
-    "puppeteer-core": "^6.0.0",
+    "puppeteer-core": "^7.1.0",
     "restana": "^4.8.1",
     "slash": "^3.0.0",
     "unzipper": "^0.10.11"
   },
   "devDependencies": {
-    "eslint": "^7.19.0",
+    "eslint": "^7.20.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1"
+    "eslint-plugin-promise": "^4.3.1"
   }
 }
